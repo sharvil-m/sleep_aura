@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#10b981">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SleepAura 🌙 - Find Your Calm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      color: #f1f5f9;
+      line-height: 1.6;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    .feature {
+      background-color: #1e293b;
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .feature:hover {
+      transform: scale(1.03);
+    }
+
+    .feature span {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .feature h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #facc15;
+    }
+
+    .timer-select {
+      margin-top: 1rem;
+      display: none;
+    }
+
+    select {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-size: 1rem;
+      margin-left: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    #stopButton {
+      display: none;
+      margin: 1rem auto;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #stopButton:hover {
+      background-color: #dc2626;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SleepAura 🌙</h1>
+    <p>Tune your mood. Transform your sleep.</p>
+  </header>
+
+  <section class="features">
+    <div class="feature" data-sound="sounds/528hz.mp3">
+      <span>😠</span>
+      <h3>Calm Anger</h3>
+      <p>528Hz tones dissolve tension and help you let go of stress.</p>
+      <div class="timer-select">
+        <label>Select time:</label>
+        <select>
+          <option value="">Time</option>
+          <option value="300">5 min</option>
+          <option value="600">10 min</option>
+          <option value="900">15 min</option>
+          <option value="1800">30 min</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="feature" data-sound="sounds/396hz.mp3">
+      <span>😢</span>
+      <h3>Lift Sadness</h3>
+      <p>396Hz frequencies soothe emotional heaviness and promote peace.</p>
+      <div class="timer-select">
+        <label>Select time:</label>
+        <select>
+          <option value="">Time</option>
+          <option value="300">5 min</option>
+          <option value="600">10 min</option>
+          <option value="900">15 min</option>
+          <option value="1800">30 min</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="feature" data-sound="sounds/432hz.mp3">
+      <span>😊</span>
+      <h3>Balance Energy</h3>
+      <p>432Hz brings harmony when you're excited but can't rest.</p>
+      <div class="timer-select">
+        <label>Select time:</label>
+        <select>
+          <option value="">Time</option>
+          <option value="300">5 min</option>
+          <option value="600">10 min</option>
+          <option value="900">15 min</option>
+          <option value="1800">30 min</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="feature" data-sound="sounds/theta.mp3">
+      <span>🥱</span>
+      <h3>Enter Deep Sleep</h3>
+      <p>Theta waves ease your brain into restful, natural sleep cycles.</p>
+      <div class="timer-select">
+        <label>Select time:</label>
+        <select>
+          <option value="">Time</option>
+          <option value="300">5 min</option>
+          <option value="600">10 min</option>
+          <option value="900">15 min</option>
+          <option value="1800">30 min</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="feature" data-sound="sounds/852hz.mp3">
+      <span>😩</span>
+      <h3>Stress Relief</h3>
+      <p>852Hz helps release mental pressure and clears your thoughts.</p>
+      <div class="timer-select">
+        <label>Select time:</label>
+        <select>
+          <option value="">Time</option>
+          <option value="300">5 min</option>
+          <option value="600">10 min</option>
+          <option value="900">15 min</option>
+          <option value="1800">30 min</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="feature" data-sound="sounds/741hz.mp3">
+      <span>🤯</span>
+      <h3>Ease Overthinking</h3>
+      <p>741Hz reduces racing thoughts and brings mental clarity.</p>
+      <div class="timer-select">
+        <label>Select time:</label>
+        <select>
+          <option value="">Time</option>
+          <option value="300">5 min</option>
+          <option value="600">10 min</option>
+          <option value="900">15 min</option>
+          <option value="1800">30 min</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <button id="stopButton">⏹ Stop Sound</button>
+
+  <footer>
+    SleepAura © 2025 | Created to help you find peace before sleep
+  </footer>
+
+<script>
+  let currentAudio = null;
+  let stopTimeout = null;
+
+  document.querySelectorAll(".feature").forEach(feature => {
+    const selectBox = feature.querySelector("select");
+    const timerDiv = feature.querySelector(".timer-select");
+    const soundFile = feature.getAttribute("data-sound");
+
+    feature.addEventListener("click", () => {
+      document.querySelectorAll(".timer-select").forEach(div => div.style.display = "none");
+      timerDiv.style.display = "block";
+    });
+
+    selectBox.addEventListener("change", () => {
+      const duration = parseInt(selectBox.value) * 1000;
+
+      if (!selectBox.value) return; // Ignore if "Time" is selected
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+
+      currentAudio = new Audio(soundFile);
+      currentAudio.loop = true;
+      currentAudio.play().catch(err => console.error("⚠️ Audio play failed:", err));
+
+      clearTimeout(stopTimeout);
+      stopTimeout = setTimeout(() => {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+        document.getElementById("stopButton").style.display = "none";
+      }, duration);
+
+      document.getElementById("stopButton").style.display = "block";
+    });
+  });
+
+  document.getElementById("stopButton").addEventListener("click", () => {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+    clearTimeout(stopTimeout);
+    document.getElementById("stopButton").style.display = "none";
+  });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('✅ Service Worker registered'))
+      .catch(err => console.error('❌ Service Worker failed:', err));
+  }
+</script>
+</body>
+</html>
