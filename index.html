@@ -11,54 +11,58 @@
   body {
     font-family: Arial, sans-serif;
     text-align: center;
+    background: #f5f5f5;
     margin: 0;
     padding: 0;
-    background: #f9f9f9;
   }
 
-  .emotion-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    padding: 20px;
+  h1 {
+    margin-top: 20px;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
   }
 
   .emotion {
     background: white;
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    width: 150px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
   }
 
   .emotion:hover {
     transform: scale(1.05);
   }
 
-  /* 🔑 Force single column on very small screens */
-  @media (max-width: 600px) {
-    .emotion-container {
-      grid-template-columns: 1fr;
-    }
+  .emoji {
+    font-size: 40px;
   }
 
-  select {
-    margin-top: 15px;
-    padding: 10px;
-    font-size: 16px;
+  .dropdown {
+    margin-top: 10px;
   }
 
   #stopButton {
-    margin: 25px auto;
-    display: block;
+    margin-top: 40px;
     padding: 12px 25px;
     font-size: 18px;
-    background: crimson;
+    background-color: crimson;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+  }
+
+  #stopButton:hover {
+    background-color: darkred;
   }
 </style>
 
@@ -233,3 +237,4 @@
 </body>
 
 </html>
+
