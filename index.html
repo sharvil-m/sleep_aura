@@ -8,120 +8,85 @@
   <title>SleepAura 🌙 - Find Your Calm</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f0f8ff;
+    margin: 0;
+    padding: 0;
+  }
 
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: linear-gradient(to bottom right, #0f172a, #1e293b);
-      color: #f1f5f9;
-      line-height: 1.6;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+  h1 {
+    margin-top: 20px;
+    color: #333;
+  }
 
-    header {
-      text-align: center;
-      padding: 4rem 1rem 2rem;
-    }
+  .emotions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 per row on larger screens */
+    gap: 15px;
+    width: 90%;
+    max-width: 600px;
+    margin: 30px auto;
+  }
 
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      color: #ffffff;
+  @media (max-width: 600px) {
+    .emotions {
+      grid-template-columns: 1fr; /* stack into 1 column on mobile */
     }
+  }
 
-    header p {
-      font-size: 1.2rem;
-      color: #cbd5e1;
-    }
+  .emotion {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 3rem 2rem;
-      max-width: 1000px;
-      margin: 0 auto;
-      flex: 1;
-    }
+  .emotion:hover {
+    transform: scale(1.05);
+  }
 
-    .feature {
-      background-color: #1e293b;
-      padding: 2rem;
-      border-radius: 1rem;
-      text-align: center;
-      transition: transform 0.3s ease;
-      cursor: pointer;
-      position: relative;
-    }
+  .emoji {
+    font-size: 2rem;
+  }
 
-    .feature:hover {
-      transform: scale(1.03);
-    }
+  .description {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #555;
+  }
 
-    .feature span {
-      font-size: 2rem;
-      display: block;
-      margin-bottom: 1rem;
-    }
+  .timer-dropdown {
+    margin-top: 20px;
+    display: none;
+  }
 
-    .feature h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: #facc15;
-    }
+  select {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
 
-    .timer-select {
-      margin-top: 1rem;
-      display: none;
-    }
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
 
-    select {
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      border: none;
-      font-size: 1rem;
-      margin-left: 0.5rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      color: #94a3b8;
-      font-size: 0.9rem;
-    }
-
-    #stopButton {
-      display: none;
-      margin: 1rem auto;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      background-color: #ef4444;
-      color: white;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #stopButton:hover {
-      background-color: #dc2626;
-    }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 2.2rem;
-      }
-    }
-  </style>
+  button:hover {
+    background-color: #45a049;
+  }
+</style>
 </head>
-
 <body>
 
   <header>
@@ -291,5 +256,6 @@
 </script>
 </body>
 </html>
+
 
 
