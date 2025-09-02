@@ -23,16 +23,17 @@
 
   .emotions {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 per row on larger screens */
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     width: 90%;
     max-width: 600px;
     margin: 30px auto;
   }
 
+  /* Force mobile view to single column */
   @media (max-width: 600px) {
     .emotions {
-      grid-template-columns: 1fr; /* stack into 1 column on mobile */
+      grid-template-columns: 1fr !important;
     }
   }
 
@@ -256,6 +257,7 @@
 </script>
 </body>
 </html>
+
 
 
 
