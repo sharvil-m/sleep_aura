@@ -1,259 +1,210 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="manifest" href="manifest.json" />
+  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#10b981">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SleepAura 🌙 - Find Your Calm</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #f0f8ff;
-    margin: 0;
-    padding: 0;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  h1 {
-    margin-top: 20px;
-    color: #333;
-  }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      color: #f1f5f9;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-  .emotions {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    width: 90%;
-    max-width: 600px;
-    margin: 30px auto;
-  }
+    header {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+    }
 
-  .emotion {
-    background: #fff;
-    border-radius: 12px;
-    padding: 15px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
 
-  .emotion:hover {
-    transform: scale(1.05);
-  }
+    header p {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+    }
 
-  .emoji {
-    font-size: 2rem;
-  }
+    .emotions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-  .description {
-    margin-top: 8px;
-    font-size: 0.9rem;
-    color: #555;
-  }
+    .emotion {
+      background-color: #1e293b;
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
 
-  .timer-dropdown {
-    margin-top: 20px;
-    display: none;
-  }
+    .emotion:hover {
+      transform: scale(1.03);
+    }
 
-  select {
-    padding: 8px;
-    font-size: 1rem;
-    border-radius: 8px;
-  }
+    .emotion span {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
 
-  button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
+    .emotion h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #facc15;
+    }
 
-  button:hover {
-    background-color: #45a049;
-  }
-</style>
+    .timer-select {
+      margin-top: 1rem;
+    }
 
+    .timer-select select {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .stop-btn {
+      margin-top: 1rem;
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .stop-btn:hover {
+      background: #dc2626;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-
   <header>
     <h1>SleepAura 🌙</h1>
     <p>Tune your mood. Transform your sleep.</p>
   </header>
 
-  <section class="features">
-    <div class="feature" data-sound="sounds/528hz.mp3">
+  <section class="emotions">
+    <div class="emotion" onclick="showTimer(this, 'sounds/528Hz.mp3')">
       <span>😠</span>
       <h3>Calm Anger</h3>
       <p>528Hz tones dissolve tension and help you let go of stress.</p>
-      <div class="timer-select">
-        <label>Select time:</label>
-        <select>
-          <option value="">Time</option>
-          <option value="300">5 min</option>
-          <option value="600">10 min</option>
-          <option value="900">15 min</option>
-          <option value="1800">30 min</option>
-        </select>
-      </div>
     </div>
-
-    <div class="feature" data-sound="sounds/396hz.mp3">
+    <div class="emotion" onclick="showTimer(this, 'sounds/396Hz.mp3')">
       <span>😢</span>
       <h3>Lift Sadness</h3>
       <p>396Hz frequencies soothe emotional heaviness and promote peace.</p>
-      <div class="timer-select">
-        <label>Select time:</label>
-        <select>
-          <option value="">Time</option>
-          <option value="300">5 min</option>
-          <option value="600">10 min</option>
-          <option value="900">15 min</option>
-          <option value="1800">30 min</option>
-        </select>
-      </div>
     </div>
-
-    <div class="feature" data-sound="sounds/432hz.mp3">
+    <div class="emotion" onclick="showTimer(this, 'sounds/432Hz.mp3')">
       <span>😊</span>
       <h3>Balance Energy</h3>
       <p>432Hz brings harmony when you're excited but can't rest.</p>
-      <div class="timer-select">
-        <label>Select time:</label>
-        <select>
-          <option value="">Time</option>
-          <option value="300">5 min</option>
-          <option value="600">10 min</option>
-          <option value="900">15 min</option>
-          <option value="1800">30 min</option>
-        </select>
-      </div>
     </div>
-
-    <div class="feature" data-sound="sounds/theta.mp3">
+    <div class="emotion" onclick="showTimer(this, 'sounds/theta.mp3')">
       <span>🥱</span>
       <h3>Enter Deep Sleep</h3>
       <p>Theta waves ease your brain into restful, natural sleep cycles.</p>
-      <div class="timer-select">
-        <label>Select time:</label>
-        <select>
-          <option value="">Time</option>
-          <option value="300">5 min</option>
-          <option value="600">10 min</option>
-          <option value="900">15 min</option>
-          <option value="1800">30 min</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="feature" data-sound="sounds/852hz.mp3">
-      <span>😩</span>
-      <h3>Stress Relief</h3>
-      <p>852Hz helps release mental pressure and clears your thoughts.</p>
-      <div class="timer-select">
-        <label>Select time:</label>
-        <select>
-          <option value="">Time</option>
-          <option value="300">5 min</option>
-          <option value="600">10 min</option>
-          <option value="900">15 min</option>
-          <option value="1800">30 min</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="feature" data-sound="sounds/741hz.mp3">
-      <span>🤯</span>
-      <h3>Ease Overthinking</h3>
-      <p>741Hz reduces racing thoughts and brings mental clarity.</p>
-      <div class="timer-select">
-        <label>Select time:</label>
-        <select>
-          <option value="">Time</option>
-          <option value="300">5 min</option>
-          <option value="600">10 min</option>
-          <option value="900">15 min</option>
-          <option value="1800">30 min</option>
-        </select>
-      </div>
     </div>
   </section>
-
-  <button id="stopButton">⏹ Stop Sound</button>
 
   <footer>
     SleepAura © 2025 | Created to help you find peace before sleep
   </footer>
 
-<script>
-  let currentAudio = null;
-  let stopTimeout = null;
+  <script>
+    let currentAudio = null;
+    let timer = null;
 
-  document.querySelectorAll(".feature").forEach(feature => {
-    const selectBox = feature.querySelector("select");
-    const timerDiv = feature.querySelector(".timer-select");
-    const soundFile = feature.getAttribute("data-sound");
+    function showTimer(card, soundFile) {
+      stopSound(); // stop previous sound if any
 
-    feature.addEventListener("click", () => {
-      document.querySelectorAll(".timer-select").forEach(div => div.style.display = "none");
-      timerDiv.style.display = "block";
-    });
+      // remove old dropdowns
+      document.querySelectorAll('.timer-select').forEach(el => el.remove());
+      document.querySelectorAll('.stop-btn').forEach(el => el.remove());
 
-    selectBox.addEventListener("change", () => {
-      const duration = parseInt(selectBox.value) * 1000;
+      // create dropdown
+      const timerDiv = document.createElement("div");
+      timerDiv.className = "timer-select";
+      timerDiv.innerHTML = `
+        <select onchange="startSound('${soundFile}', this.value)">
+          <option value="">⏳ Select time</option>
+          <option value="300">5 min</option>
+          <option value="600">10 min</option>
+          <option value="900">15 min</option>
+          <option value="1800">30 min</option>
+        </select>
+      `;
+      card.appendChild(timerDiv);
 
-      if (!selectBox.value) return; // Ignore if "Time" is selected
+      // stop button
+      const stopBtn = document.createElement("button");
+      stopBtn.className = "stop-btn";
+      stopBtn.innerText = "⏹ Stop";
+      stopBtn.onclick = stopSound;
+      card.appendChild(stopBtn);
+    }
 
+    function startSound(file, duration) {
+      stopSound();
+      if (!duration) return;
+
+      currentAudio = new Audio(file);
+      currentAudio.loop = true;
+      currentAudio.play();
+
+      timer = setTimeout(stopSound, duration * 1000);
+    }
+
+    function stopSound() {
       if (currentAudio) {
         currentAudio.pause();
-        currentAudio.currentTime = 0;
+        currentAudio = null;
       }
-
-      currentAudio = new Audio(soundFile);
-      currentAudio.loop = true;
-      currentAudio.play().catch(err => console.error("⚠️ Audio play failed:", err));
-
-      clearTimeout(stopTimeout);
-      stopTimeout = setTimeout(() => {
-        if (currentAudio) {
-          currentAudio.pause();
-          currentAudio.currentTime = 0;
-        }
-        document.getElementById("stopButton").style.display = "none";
-      }, duration);
-
-      document.getElementById("stopButton").style.display = "block";
-    });
-  });
-
-  document.getElementById("stopButton").addEventListener("click", () => {
-    if (currentAudio) {
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
     }
-    clearTimeout(stopTimeout);
-    document.getElementById("stopButton").style.display = "none";
-  });
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(reg => console.log('✅ Service Worker registered'))
-      .catch(err => console.error('❌ Service Worker failed:', err));
-  }
-</script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(() => console.log("✅ PWA Ready"))
+        .catch(err => console.error("❌ PWA error", err));
+    }
+  </script>
 </body>
 </html>
-
-
-
-
-
-
