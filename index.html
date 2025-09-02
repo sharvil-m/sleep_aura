@@ -1,6 +1,7 @@
-<html lang="en"><head>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#10b981">
+<html lang="en">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10b981">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SleepAura 🌙 - Find Your Calm</title>
@@ -74,6 +75,14 @@
       margin: 3rem 1rem;
     }
 
+    .cta select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      margin-left: 0.5rem;
+    }
+
     .cta a {
       display: inline-block;
       padding: 1rem 2rem;
@@ -106,7 +115,7 @@
         padding: 0.8rem 1.6rem;
       }
 
-      /* Force single column on small screens */
+      /* ✅ Force single column on small screens */
       .features {
         grid-template-columns: 1fr;
       }
@@ -154,6 +163,13 @@
   </section>
 
   <div class="cta">
+    <label for="timer">Choose duration:</label>
+    <select id="timer">
+      <option value="5">5 min</option>
+      <option value="10">10 min</option>
+      <option value="15">15 min</option>
+      <option value="30">30 min</option>
+    </select>
     <a href="Sleep aura.html">🎧 Start Sleeping</a>
   </div>
 
@@ -169,4 +185,5 @@
   }
 </script>
 
-</body></html>
+</body>
+</html>
