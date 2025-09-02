@@ -1,7 +1,6 @@
-<html lang="en">
-<head>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#10b981">
+<html lang="en"><head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#10b981">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SleepAura 🌙 - Find Your Calm</title>
@@ -34,3 +33,140 @@
 
     header p {
       font-size: 1.2rem;
+      color: #cbd5e1;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .feature {
+      background-color: #1e293b;
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .feature:hover {
+      transform: scale(1.03);
+    }
+
+    .feature span {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .feature h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #facc15;
+    }
+
+    .cta {
+      text-align: center;
+      margin: 3rem 1rem;
+    }
+
+    .cta a {
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #10b981;
+      color: white;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta a:hover {
+      background-color: #059669;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+
+      .cta a {
+        font-size: 1rem;
+        padding: 0.8rem 1.6rem;
+      }
+
+      /* Force single column on small screens */
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SleepAura 🌙</h1>
+    <p>Tune your mood. Transform your sleep.</p>
+  </header>
+
+  <section class="features">
+    <div class="feature">
+      <span>😠</span>
+      <h3>Calm Anger</h3>
+      <p>528Hz tones dissolve tension and help you let go of stress.</p>
+    </div>
+    <div class="feature">
+      <span>😢</span>
+      <h3>Lift Sadness</h3>
+      <p>396Hz frequencies soothe emotional heaviness and promote peace.</p>
+    </div>
+    <div class="feature">
+      <span>😊</span>
+      <h3>Balance Energy</h3>
+      <p>432Hz brings harmony when you're excited but can't rest.</p>
+    </div>
+    <div class="feature">
+      <span>🥱</span>
+      <h3>Enter Deep Sleep</h3>
+      <p>Theta waves ease your brain into restful, natural sleep cycles.</p>
+    </div>
+    <div class="feature">
+      <span>😴</span>
+      <h3>Relax the Mind</h3>
+      <p>Alpha waves calm overthinking and prepare your mind for sleep.</p>
+    </div>
+    <div class="feature">
+      <span>💭</span>
+      <h3>Ease Anxiety</h3>
+      <p>852Hz restores mental clarity and reduces restless thoughts.</p>
+    </div>
+  </section>
+
+  <div class="cta">
+    <a href="Sleep aura.html">🎧 Start Sleeping</a>
+  </div>
+
+  <footer>
+    SleepAura © 2025 | Created to help you find peace before sleep
+  </footer>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(() => console.log("✅ PWA Ready"))
+      .catch(err => console.error("❌ PWA error", err));
+  }
+</script>
+
+</body></html>
