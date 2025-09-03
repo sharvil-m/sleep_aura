@@ -1,21 +1,104 @@
 {
-  "name": "SleepAura",
+  "name": "SleepAura - Find Your Calm",
   "short_name": "SleepAura",
-  "start_url": "./index.html",
+  "description": "Tune your mood and transform your sleep with healing frequencies",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
+  "orientation": "portrait-primary",
   "theme_color": "#10b981",
-  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["health", "lifestyle", "wellness"],
+  "screenshots": [
+    {
+      "src": "screenshots/mobile-screenshot.png",
+      "sizes": "640x1136",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/desktop-screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
   "icons": [
+    {
+      "src": "icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
     {
       "src": "icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
     },
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable any"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Quick Sleep",
+      "short_name": "Sleep",
+      "description": "Start theta waves for instant sleep",
+      "url": "/?quick=sleep",
+      "icons": [
+        {
+          "src": "icons/sleep-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Stress Relief",
+      "short_name": "Relax",
+      "description": "852Hz for immediate stress relief",
+      "url": "/?quick=stress",
+      "icons": [
+        {
+          "src": "icons/stress-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
 }
