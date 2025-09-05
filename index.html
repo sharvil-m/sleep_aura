@@ -24,6 +24,10 @@
       flex-direction: column;
       min-height: 100vh;
       animation: backgroundShift 20s ease-in-out infinite alternate;
+      width: 100%;
+      max-width: 100vw;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
     }
 
     @keyframes backgroundShift {
@@ -396,15 +400,6 @@
       .controls {
         padding: 0 1rem;
         gap: 1.25rem;
-      }
-      
-      .volume-container {
-        padding: 0.75rem 1.25rem;
-        width: 95%;
-      }
-      
-      #volumeSlider {
-        width: 80px;
       }
       
       footer {
