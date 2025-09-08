@@ -1,20 +1,80 @@
 {
-  "name": "SleepAura",
+  "name": "SleepAura - Find Your Calm",
   "short_name": "SleepAura",
-  "start_url": "./index.html",
+  "description": "Tune your mood and transform your sleep with healing frequencies",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
+  "orientation": "portrait-primary",
   "theme_color": "#10b981",
+  "background_color": "#0f172a",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["health", "lifestyle", "wellness"],
+  "screenshots": [
+    {
+      "src": "screenshots/mobile-screenshot.png",
+      "sizes": "640x1136",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/desktop-screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
   "icons": [
     {
       "src": "icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Quick Sleep",
+      "short_name": "Sleep",
+      "description": "Start theta waves for instant sleep",
+      "url": "/?quick=sleep",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Stress Relief",
+      "short_name": "Relax",
+      "description": "852Hz for immediate stress relief",
+      "url": "/?quick=stress",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
 }
