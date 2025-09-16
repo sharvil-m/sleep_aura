@@ -1,80 +1,32 @@
 {
-  "name": "SleepAura - Find Your Calm",
+  "name": "SleepAura",
   "short_name": "SleepAura",
-  "description": "Tune your mood and transform your sleep with healing frequencies",
-  "start_url": "/",
+  "description": "Mood-based sleep sounds with optional ambient layers.",
+  "start_url": "./?source=pwa",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "theme_color": "#10b981",
   "background_color": "#0f172a",
-  "scope": "/",
-  "lang": "en",
-  "categories": ["health", "lifestyle", "wellness"],
-  "screenshots": [
-    {
-      "src": "screenshots/mobile-screenshot.png",
-      "sizes": "640x1136",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "screenshots/desktop-screenshot.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ],
+  "theme_color": "#10b981",
+  "orientation": "any",
   "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
     {
-      "name": "Quick Sleep",
-      "short_name": "Sleep",
-      "description": "Start theta waves for instant sleep",
-      "url": "/?quick=sleep",
-      "icons": [
-        {
-          "src": "icons/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "Calm Anger",
+      "short_name": "Anger",
+      "url": "./?fx=anger",
+      "icons": [{ "src": "icons/shortcut-anger.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
-      "name": "Stress Relief",
-      "short_name": "Relax",
-      "description": "852Hz for immediate stress relief",
-      "url": "/?quick=stress",
-      "icons": [
-        {
-          "src": "icons/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "Ease Overthinking",
+      "short_name": "Overthink",
+      "url": "./?fx=overthinking",
+      "icons": [{ "src": "icons/shortcut-overthink.png", "sizes": "96x96", "type": "image/png" }]
     }
   ],
-  "prefer_related_applications": false
+  "categories": ["health", "wellness", "productivity"]
 }
