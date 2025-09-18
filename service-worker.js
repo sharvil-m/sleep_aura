@@ -70,3 +70,4 @@ if (cached) return cached;
 return fetch(req).then((res) => {
 const copy = res.clone();
 });
+
