@@ -1,55 +1,94 @@
-const CACHE_NAME = "sleepaura-v2"; // bump version if you update files
-const FILES_TO_CACHE = [
+// --- SleepAura Service Worker ---
+// Bump this when you release (any change = new version):
+const CACHE_VERSION = "v6-2025-09-16-ambient_sounds";
+const STATIC_CACHE = `sleepaura-${CACHE_VERSION}`;
+
+const PRECACHE_URLS = [
   "./",
   "./index.html",
   "./manifest.json",
   "./style.css",
   "./script.js",
-
-  // Frequencies
-  "./sounds/396hz.mp3",
-  "./sounds/432hz.mp3",
-  "./sounds/528hz.mp3",
-  "./sounds/639hz.mp3",
-  "./sounds/741hz.mp3",
-  "./sounds/852hz.mp3",
-
-  // Ambient sounds
-  "./sounds/ambient/rain.mp3",
-  "./sounds/ambient/fire.mp3",
-  "./sounds/ambient/ocean.mp3",
-  "./sounds/ambient/wind.mp3"
+  "./icons/icon-192.png",
+  "./icons/icon-512.png",
+  // Tip: you can also list specific audio files here if you want them
+  // available offline on first load. Otherwise they'll be cached on first play.
+  // "./sounds/frequencies/528hz.mp3",
+  // "./sounds/ambient_sounds/rain.mp3",
 ];
 
-// Install
-self.addEventListener("install", e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+// Install: precache core files and activate immediately
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS))
   );
 });
 
-// Activate (cleanup old caches)
-self.addEventListener("activate", e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      )
+// Activate: clear old caches and take control
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.map((k) => (k !== STATIC_CACHE ? caches.delete(k) : null)))
     )
   );
+  self.clients.claim();
 });
 
-// Fetch
-self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(resp => {
-      return resp || fetch(e.request);
-    })
-  );
+// Helper
+const sameOrigin = (url) => url.origin === self.location.origin;
+
+self.addEventListener("fetch", (event) => {
+  const req = event.request;
+  const url = new URL(req.url);
+
+  // Let browser handle byte-range audio streaming
+  if (req.headers.has("range")) return;
+
+  if (!sameOrigin(url)) return;
+
+  // 1) Navigations: network-first (so new releases show without hard refresh)
+  if (req.mode === "navigate") {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(STATIC_CACHE).then((c) => c.put(req, copy));
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  // 2) Sounds (including ambient_sounds): cache-first, then network; store on first fetch
+  if (url.pathname.includes("/sounds/")) {
+    event.respondWith(
+      caches.match(req).then((cached) => {
+        if (cached) return cached;
+        return fetch(req).then((res) => {
+          const copy = res.clone();
+          caches.open(STATIC_CACHE).then((c) => c.put(req, copy));
+          return res;
+        });
+      })
+    );
+    return;
+  }
+
+  // 3) Other static assets: stale-while-revalidate
+  if (/\.(css|js|png|jpg|jpeg|webp|svg|ico|json|mp3)$/i.test(url.pathname)) {
+    event.respondWith(
+      caches.match(req).then((cached) => {
+        const fetchPromise = fetch(req)
+          .then((res) => {
+            const copy = res.clone();
+            caches.open(STATIC_CACHE).then((c) => c.put(req, copy));
+            return res;
+          })
+          .catch(() => cached);
+        return cached || fetchPromise;
+      })
+    );
+  }
 });
