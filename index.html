@@ -333,12 +333,47 @@
     el.appendChild(ripple);
     ripple.addEventListener('animationend', ()=> ripple.remove());
   }
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("./service-worker.js", { scope: "./" })
-      .then(reg => console.log("SW registered:", reg.scope))
-      .catch(err => console.error("SW registration failed:", err));
-  }
+// --- SleepAura SW registration with versioned URL (forces fresh fetch) ---
+(function(){
+if (!('serviceWorker' in navigator)) return;
+if (window.__sa_sw_registered) return; // avoid double registration
+window.__sa_sw_registered = true;
+
+
+// Update this query param when you bump CACHE_VERSION in service-worker.js
+const SW_URL = `./service-worker.js?v=v9-2025-09-18-02`;
+
+
+window.addEventListener('load', () => {
+navigator.serviceWorker.getRegistration().then((oldReg) => {
+// If an old SW with a different URL exists, unregister it to prevent stale caches
+if (oldReg && oldReg.active && oldReg.active.scriptURL && !oldReg.active.scriptURL.endsWith('v9-2025-09-18-02')) {
+oldReg.unregister().catch(()=>{});
+}
+}).finally(() => {
+navigator.serviceWorker.register(SW_URL).then((reg) => {
+// Force a check for updates immediately
+reg.update();
+reg.addEventListener('updatefound', () => {
+const nw = reg.installing; if (!nw) return;
+nw.addEventListener('statechange', () => {
+if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+location.reload();
+}
+});
+});
+});
+});
+
+
+// Reload once when controller changes (new SW takes control)
+let refreshing = false;
+navigator.serviceWorker.addEventListener('controllerchange', () => {
+if (refreshing) return; refreshing = true; location.reload();
+});
+});
+})();
 </script>
 </body>
 </html>
+
