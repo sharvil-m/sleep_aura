@@ -1,23 +1,9 @@
 // service-worker.js
-Promise.all(keys.map((k) => (k !== STATIC_CACHE ? caches.delete(k) : null)))
-)
-);
-self.clients.claim();
-});
-
-
-const sameOrigin = (url) => url.origin === self.location.origin;
-
-
-self.addEventListener("fetch", (event) => {
-const req = event.request;
-const url = new URL(req.url);
-
-
-if (req.headers.has("range")) return;
+// Only manage same-origin
 if (!sameOrigin(url)) return;
 
 
+// 1) HTML navigations → network-first for instant updates
 if (req.mode === "navigate") {
 event.respondWith(
 fetch(req)
@@ -32,6 +18,7 @@ return;
 }
 
 
+// 2) Audio under /sounds or /sounds/ambient → cache-first
 if (url.pathname.includes("/sounds/")) {
 event.respondWith(
 caches.match(req).then((cached) => {
@@ -47,6 +34,7 @@ return;
 }
 
 
+// 3) Other static assets → stale-while-revalidate
 if (/\.(css|js|png|jpg|jpeg|webp|svg|ico|json|mp3)$/i.test(url.pathname)) {
 event.respondWith(
 caches.match(req).then((cached) => {
