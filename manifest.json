@@ -1,4 +1,3 @@
-// manifest.json
 {
 "name": "SleepAura",
 "short_name": "SleepAura",
@@ -8,3 +7,4 @@
 "background_color": "#0f172a",
 "theme_color": "#10b981"
 }
+
