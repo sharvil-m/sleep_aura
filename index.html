@@ -445,12 +445,12 @@
     }
 
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("./service-worker.js", { scope: "./" })
+ navigator.serviceWorker.register("./service-worker.js?v=v16-2025-09-20", { scope: "./" })
         .then(reg => console.log("SW registered:", reg.scope))
         .catch(err => console.error("SW registration failed:", err));
     }
 </script>
 </body>
 </html>
+
 
