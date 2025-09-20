@@ -1,58 +1,66 @@
 <html lang="en">
+<option value="300">5 min</option>
+<option value="600">10 min</option>
+<option value="900">15 min</option>
+<option value="1800">30 min</option>
+<option value="3600">1 hour</option>
+</select>
+</div>
+<div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
+<div class="progress" aria-hidden="true"><div class="bar"></div></div>
+</div>
 
 
-currentAudio=new Audio(session.soundFile); currentAudio.loop=true; currentAudio.volume=defaultVolume;
-if(withAmbient){ const ambientFile=ambientMap[session.emotion]; if(ambientFile){ ambientAudio=new Audio(ambientFile); ambientAudio.loop=true; ambientAudio.volume=0.5; }}
+<div class="feature" data-sound="sounds/396hz.mp3" data-emotion="sadness" tabindex="0">
+<div class="fx-head"><div class="fx-emoji">😢</div><div><h3>Lift Sadness</h3><p>396Hz frequencies soothe emotional heaviness and promote peace.</p></div></div>
+<div class="timer-select"><label>Select time:</label>
+<select>
+<option value="">Choose duration</option>
+<option value="300">5 min</option>
+<option value="600">10 min</option>
+<option value="900">15 min</option>
+<option value="1800">30 min</option>
+<option value="3600">1 hour</option>
+</select>
+</div>
+<div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
+<div class="progress" aria-hidden="true"><div class="bar"></div></div>
+</div>
 
 
-try { await currentAudio.play(); } catch(e){ console.warn('Freq play blocked', e); }
-if(ambientAudio){ try { await ambientAudio.play(); } catch(e){ console.warn('Ambient play blocked', e); } }
+<div class="feature" data-sound="sounds/432hz.mp3" data-emotion="excitement" tabindex="0">
+<div class="fx-head"><div class="fx-emoji">😊</div><div><h3>Balance Energy</h3><p>432Hz brings harmony when you're excited but can't rest.</p></div></div>
+<div class="timer-select"><label>Select time:</label>
+<select>
+<option value="">Choose duration</option>
+<option value="300">5 min</option>
+<option value="600">10 min</option>
+<option value="900">15 min</option>
+<option value="1800">30 min</option>
+<option value="3600">1 hour</option>
+</select>
+</div>
+<div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
+<div class="progress" aria-hidden="true"><div class="bar"></div></div>
+</div>
 
 
-endTime=Date.now()+session.duration; totalDurationMs=session.duration;
-session.controls.style.display='flex';
-updateTimer(session.timerDisplay, activeProgressBar, totalDurationMs);
-timerInterval=setInterval(()=>updateTimer(session.timerDisplay, activeProgressBar, totalDurationMs),1000);
+<div class="feature" data-sound="sounds/theta.mp3" data-emotion="neutral" tabindex="0">
+<div class="fx-head"><div class="fx-emoji">🥱</div><div><h3>Enter Deep Sleep</h3><p>Theta waves ease your brain into restful, natural sleep cycles.</p></div></div>
+<div class="timer-select"><label>Select time:</label>
+<select>
+<option value="">Choose duration</option>
+<option value="300">5 min</option>
+<option value="600">10 min</option>
+<option value="900">15 min</option>
+<option value="1800">30 min</option>
+<option value="3600">1 hour</option>
+</select>
+</div>
+<div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
+<div class="progress" aria-hidden="true"><div class="bar"></div></div>
+</div>
 
 
-if(session.duration>60000){ fadeTimeout=setTimeout(()=>{ if(currentAudio)fadeOutAudio(currentAudio); if(ambientAudio)fadeOutAudio(ambientAudio); }, session.duration-60000); }
-stopTimeout=setTimeout(()=>{ stopAudio(); session.controls.style.display='none'; session.feature.classList.remove('active'); session.progressBar.style.width='0%'; }, session.duration);
-}
-
-
-function updateTimer(timerDisplay,progressEl,totalMs){
-if(!endTime) return;
-const remaining=Math.max(0,Math.ceil((endTime-Date.now())/1000));
-const mins=String(Math.floor(remaining/60)).padStart(2,'0');
-const secs=String(remaining%60).padStart(2,'0');
-timerDisplay.textContent=`${mins}:${secs}`;
-const elapsed=Math.min(totalMs,totalMs-Math.max(0,endTime-Date.now()));
-const pct=Math.max(0,Math.min(100,(elapsed/totalMs)*100));
-if(progressEl) progressEl.style.width=pct+'%';
-if(remaining<=0){ clearInterval(timerInterval); }
-}
-
-
-function fadeOutAudio(audio,duration=60000){ const steps=Math.max(1,Math.floor(duration/100)); const step=audio.volume/steps; const fadeInterval=setInterval(()=>{ if(audio.volume>step) audio.volume-=step; else{ audio.volume=0; clearInterval(fadeInterval);} },100); }
-
-
-function stopAudio(){
-if(currentAudio){ currentAudio.pause(); currentAudio.currentTime=0; currentAudio=null; }
-if(ambientAudio){ ambientAudio.pause(); ambientAudio.currentTime=0; ambientAudio=null; }
-clearTimeout(stopTimeout); clearTimeout(fadeTimeout); clearInterval(timerInterval);
-endTime=null; totalDurationMs=0; if(activeCard) activeCard.classList.remove('active'); if(activeProgressBar) activeProgressBar.style.width='0%';
-}
-
-
-function createRipple(el, e){ const rect = el.getBoundingClientRect(); const size = Math.max(rect.width, rect.height); const ripple = document.createElement('span'); ripple.className = 'ripple'; ripple.style.width = ripple.style.height = size + 'px'; ripple.style.left = (e.clientX - rect.left - size/2) + 'px'; ripple.style.top = (e.clientY - rect.top - size/2) + 'px'; el.appendChild(ripple); ripple.addEventListener('animationend', ()=> ripple.remove()); }
-
-
-if ("serviceWorker" in navigator) {
-navigator.serviceWorker
-.register("./service-worker.js", { scope: "./" })
-.then(reg => console.log("SW registered:", reg.scope))
-.catch(err => console.error("SW registration failed:", err));
-}
-</script>
-</body>
+<div class="feature" data-sound="sounds/852hz.mp3" data-emotion="stress" tabindex="0">
 </html>
