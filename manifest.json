@@ -1,20 +1,10 @@
+// manifest.json
 {
 "name": "SleepAura",
 "short_name": "SleepAura",
-"description": "Calming frequencies with optional ambient layers to match your mood and improve sleep.",
 "start_url": "./",
 "scope": "./",
 "display": "standalone",
 "background_color": "#0f172a",
-"theme_color": "#0f172a",
-"orientation": "portrait-primary",
-"icons": [
-{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-{ "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
-],
-"categories": ["health", "lifestyle", "productivity"],
-"shortcuts": [
-{ "name": "528Hz + Rain (10m)", "short_name": "Quick Calm", "url": "./?fx=528&amb=rain&dur=600000" },
-{ "name": "Theta + Ocean (30m)", "short_name": "Deep Sleep", "url": "./?fx=theta&amb=ocean&dur=1800000" }
-]
+"theme_color": "#10b981"
 }
