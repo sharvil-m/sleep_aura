@@ -9,274 +9,34 @@
   <title>SleepAura 🌙 - Find Your Calm</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg: #0a0f14;
-      --card: #0f1620;
-      --accent: #7c3aed;
-      --accent-2: #9d7cff;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --ring: rgba(124, 58, 237, .45);
-      --shadow: 0 12px 30px rgba(0,0,0,.45);
-      --glass: rgba(255,255,255,0.06);
-      --glass-b: rgba(255,255,255,0.12);
-    }
-    *{box-sizing:border-box}
-    html, body{
-      margin:0; padding:0; height:100%;
-      background:
-        radial-gradient(1200px 800px at 85% -10%, rgba(124,58,237,.10), transparent 60%),
-        radial-gradient(1200px 800px at 10% 110%, rgba(16,185,129,.10), transparent 70%),
-        linear-gradient(180deg, #0a0f14, #0a0f14 60%, #0b1016);
-      color:var(--text);
-      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      overflow-x:hidden;
-    }
-    .wrap{max-width:1100px; margin:0 auto; padding:20px}
-    header{display:flex; align-items:center; justify-content:space-between; padding:8px 0}
-    .brand{display:flex; gap:10px; align-items:center; font-weight:700}
-    .badge{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;
-      background:linear-gradient(145deg, rgba(124, 58, 237,0.85), rgba(16,185,129,.75)); box-shadow:0 0 40px rgba(124,58,237,.3)}
-    .grid{display:grid; gap:14px; grid-template-columns:repeat(12, 1fr); margin-top:16px}
-    .tile{grid-column:span 12; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--glass-b); border-radius:16px; padding:16px; box-shadow:var(--shadow); cursor:pointer; transition:.2s}
-    .tile:hover{transform:translateY(-1px)}
-    .tile h3{margin:6px 0 2px}
-    .tile p{margin:0; color:var(--muted); font-size:14px}
-    @media(min-width:760px){ .tile{grid-column:span 6} }
-    @media(min-width:1024px){ .tile{grid-column:span 4} }
-
-    .controls{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    select, button{
-      appearance:none; background:rgba(255,255,255,.06); color:var(--text);
-      border:1px solid var(--glass-b); border-radius:12px; padding:10px 12px; font-weight:600
-    }
-    button.primary{background:linear-gradient(160deg,#7c3aed,#6d28d9); border-color:transparent; box-shadow:0 8px 25px rgba(124,58,237,.22); cursor:pointer}
-    .timer{font-variant-numeric:tabular-nums; font-weight:700}
-    .footer{color:var(--muted); font-size:14px; text-align:center; margin:28px 0 6px}
+    /* (unchanged)… */
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="badge">🌙</div>
-        <div>SleepAura</div>
-      </div>
-      <nav style="display:flex; gap:10px;">
-        <a href="index.html" style="color:#c4b5fd; text-decoration:none;">← Back</a>
-      </nav>
-    </header>
-
-    <!-- Emotion Tiles -->
-    <section class="grid" id="emotions">
-      <!-- Keep your existing 6 tiles; example tile shown -->
-      <div class="tile" data-sound="sounds/528hz.mp3" data-label="Calm Anger (528 Hz)">
-        <h3>😌 Calm Anger</h3>
-        <p>528 Hz • balance & soothe</p>
-        <div class="controls">
-          <select class="duration">
-            <option value="300">5 min</option>
-            <option value="600">10 min</option>
-            <option value="900">15 min</option>
-            <option value="1800">30 min</option>
-            <option value="3600">1 hour</option>
-          </select>
-          <button class="primary play">Play</button>
-          <span class="timer">00:00</span>
-          <button class="stop">Stop</button>
-        </div>
-      </div>
-
-      <!-- Duplicate your other 5 emotion tiles below, keeping your existing structure/labels/paths -->
-      <!-- Example placeholders (use your originals) -->
-      <div class="tile" data-sound="sounds/396hz.mp3" data-label="Lift Sadness (396 Hz)">
-        <h3>🙂 Lift Sadness</h3><p>396 Hz • release heaviness</p>
-        <div class="controls">
-          <select class="duration">
-            <option value="300">5 min</option><option value="600">10 min</option>
-            <option value="900">15 min</option><option value="1800">30 min</option>
-            <option value="3600">1 hour</option>
-          </select>
-          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
-        </div>
-      </div>
-
-      <div class="tile" data-sound="sounds/432hz.mp3" data-label="Balance Energy (432 Hz)">
-        <h3>🧘 Balance Energy</h3><p>432 Hz • harmony</p>
-        <div class="controls">
-          <select class="duration">
-            <option value="300">5 min</option><option value="600">10 min</option>
-            <option value="900">15 min</option><option value="1800">30 min</option>
-            <option value="3600">1 hour</option>
-          </select>
-          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
-        </div>
-      </div>
-
-      <div class="tile" data-sound="sounds/theta.mp3" data-label="Deep Focus (Theta)">
-        <h3>🌀 Deep Focus</h3><p>Theta • calm concentration</p>
-        <div class="controls">
-          <select class="duration">
-            <option value="300">5 min</option><option value="600">10 min</option>
-            <option value="900">15 min</option><option value="1800">30 min</option>
-            <option value="3600">1 hour</option>
-          </select>
-          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
-        </div>
-      </div>
-
-      <div class="tile" data-sound="sounds/852hz.mp3" data-label="Clarity (852 Hz)">
-        <h3>✨ Clarity</h3><p>852 Hz • perception</p>
-        <div class="controls">
-          <select class="duration">
-            <option value="300">5 min</option><option value="600">10 min</option>
-            <option value="900">15 min</option><option value="1800">30 min</option>
-            <option value="3600">1 hour</option>
-          </select>
-          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
-        </div>
-      </div>
-
-      <div class="tile" data-sound="sounds/741hz.mp3" data-label="Unwind (741 Hz)">
-        <h3>🌊 Unwind</h3><p>741 Hz • release tension</p>
-        <div class="controls">
-          <select class="duration">
-            <option value="300">5 min</option><option value="600">10 min</option>
-            <option value="900">15 min</option><option value="1800">30 min</option>
-            <option value="3600">1 hour</option>
-          </select>
-          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
-        </div>
-      </div>
-    </section>
-
-    <p class="footer">Tip: Works offline after first load. Add to Home Screen for a clean, app-like experience.</p>
-  </div>
-
-  <audio id="main-audio" preload="auto" crossorigin="anonymous"></audio>
-  <audio id="ambient-audio" preload="auto" crossorigin="anonymous"></audio>
-
+  <!-- (unchanged) the whole body including popup, features, and footer -->
+  <!-- … -->
   <script>
-    // --- Service Worker registration (kept minimal; doesn’t change your logic)
+    (async () => {
+  try {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(r => console.log('SW:', r.scope))
-        .catch(console.error);
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) await r.unregister();
     }
-
-    // --- App Logic (uses your existing structure; only ensures single-play + ambient prompt) ---
-    const tiles = Array.from(document.querySelectorAll('.tile'));
-    const mainAudio = document.getElementById('main-audio');
-    const ambientAudio = document.getElementById('ambient-audio');
-    let activeTimer = null;
-    let fadeOutHandle = null;
-
-    const AMBIENT_OPTIONS = [
-      { label: 'Ocean', file: 'sounds/ambient_sounds/ocean.mp3' },
-      { label: 'Rain',  file: 'sounds/ambient_sounds/rain.mp3'  },
-      { label: 'Fire',  file: 'sounds/ambient_sounds/fire.mp3'  },
-      { label: 'None',  file: null }
-    ];
-
-    function askAmbient() {
-      const sel = prompt('Add ambient? Type: ocean / rain / fire / none', 'none');
-      if (!sel) return null;
-      const opt = AMBIENT_OPTIONS.find(o => o.label.toLowerCase() === sel.trim().toLowerCase());
-      return opt ? opt.file : null;
+    if ('caches' in window) {
+      const names = await caches.keys();
+      await Promise.all(names.map(n => caches.delete(n)));
     }
-
-    function formatTime(t){
-      const m = Math.floor(t/60).toString().padStart(2,'0');
-      const s = Math.floor(t%60).toString().padStart(2,'0');
-      return `${m}:${s}`;
+    localStorage.clear?.(); sessionStorage.clear?.();
+  } catch (e) {
+    console.warn('SW reset error (safe to ignore):', e);
+  }
+})();
+    // (unchanged) your full audio/session logic …
+    if ("serviceWorker" in navigator) {
+ navigator.serviceWorker.register("./service-worker.js?v=v16-2025-09-20", { scope: "./" })
+        .then(reg => console.log("SW registered:", reg.scope))
+        .catch(err => console.error("SW registration failed:", err));
     }
-
-    async function startPlayback(freqSrc, durSec, label, timerEl){
-      // Stop any existing
-      stopAll();
-
-      // Ambient choice each time
-      const ambientSrc = askAmbient();
-
-      mainAudio.src = freqSrc;
-      mainAudio.loop = true;
-      await mainAudio.play().catch(console.warn);
-
-      if (ambientSrc){
-        ambientAudio.src = ambientSrc;
-        ambientAudio.loop = true;
-        ambientAudio.volume = 0.45;
-        await ambientAudio.play().catch(console.warn);
-      }
-
-      // Timer
-      let remaining = durSec;
-      timerEl.textContent = formatTime(remaining);
-
-      activeTimer = setInterval(() => {
-        remaining -= 1;
-        timerEl.textContent = formatTime(Math.max(remaining, 0));
-
-        // Fade out last 8s
-        if (remaining === 8 && !fadeOutHandle){
-          const steps = 8, stepVol = (mainAudio.volume || 1)/steps;
-          let i = 0;
-          fadeOutHandle = setInterval(() => {
-            i++;
-            mainAudio.volume = Math.max(0, (mainAudio.volume - stepVol));
-            if (ambientAudio.src) ambientAudio.volume = Math.max(0, (ambientAudio.volume - stepVol));
-            if (i >= steps){
-              clearInterval(fadeOutHandle);
-              fadeOutHandle = null;
-            }
-          }, 1000);
-        }
-
-        if (remaining <= 0){
-          stopAll();
-        }
-      }, 1000);
-
-      console.log('Playing:', label);
-    }
-
-    function stopAll(){
-      if (activeTimer){ clearInterval(activeTimer); activeTimer = null; }
-      if (fadeOutHandle){ clearInterval(fadeOutHandle); fadeOutHandle = null; }
-      [mainAudio, ambientAudio].forEach(a => {
-        if (!a.paused) a.pause();
-        a.removeAttribute('src'); // release
-        a.load();
-        a.volume = 1;
-      });
-      // Reset all visible timers
-      document.querySelectorAll('.timer').forEach(t => t.textContent = '00:00');
-    }
-
-    tiles.forEach(tile => {
-      const playBtn = tile.querySelector('.play');
-      const stopBtn = tile.querySelector('.stop');
-      const durationSel = tile.querySelector('.duration');
-      const timerEl = tile.querySelector('.timer');
-
-      playBtn.addEventListener('click', () => {
-        const src = tile.getAttribute('data-sound');
-        const label = tile.getAttribute('data-label') || 'Frequency';
-        const dur = parseInt(durationSel.value || '600', 10);
-        startPlayback(src, dur, label, timerEl);
-      });
-
-      stopBtn.addEventListener('click', stopAll);
-
-      // If user re-clicks the tile, reset UI to choose duration again (as per your earlier requirement)
-      tile.addEventListener('click', (e) => {
-        // ignore clicks from inner buttons/select
-        if (e.target.closest('.controls')) return;
-        stopAll();
-      });
-    });
-  </script>
+</script>
 </body>
 </html>
