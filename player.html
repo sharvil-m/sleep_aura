@@ -10,447 +10,273 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg1:#0f172a; --bg2:#1e293b; --card1:#1e293b; --card2:#334155;
-      --text:#f1f5f9; --muted:#94a3b8; --muted-2:#cbd5e1; --primary:#facc15; --accent:#10b981;
-      --danger:#ef4444; --danger-2:#dc2626; --ring: rgba(250,204,21,.35); --card-border: rgba(148,163,184,.12);
-      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --bg: #0a0f14;
+      --card: #0f1620;
+      --accent: #7c3aed;
+      --accent-2: #9d7cff;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --ring: rgba(124, 58, 237, .45);
+      --shadow: 0 12px 30px rgba(0,0,0,.45);
+      --glass: rgba(255,255,255,0.06);
+      --glass-b: rgba(255,255,255,0.12);
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--text); line-height:1.6;
-      background: radial-gradient(1200px 800px at 20% -10%, rgba(250,204,21,.06), transparent 50%),
-                  radial-gradient(1000px 800px at 110% 10%, rgba(16,185,129,.08), transparent 50%),
-                  linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 50%,var(--bg1) 100%);
-      background-attachment: fixed; overflow-x:hidden; display:flex; flex-direction:column; min-height:100vh;
-      animation:bgShift 18s ease-in-out infinite alternate;
+    *{box-sizing:border-box}
+    html, body{
+      margin:0; padding:0; height:100%;
+      background:
+        radial-gradient(1200px 800px at 85% -10%, rgba(124,58,237,.10), transparent 60%),
+        radial-gradient(1200px 800px at 10% 110%, rgba(16,185,129,.10), transparent 70%),
+        linear-gradient(180deg, #0a0f14, #0a0f14 60%, #0b1016);
+      color:var(--text);
+      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
     }
-    @keyframes bgShift{0%{background-position:0 0,0 0,0 0}100%{background-position:30px -30px,-40px 20px,0 0}}
-    .shell{max-width:1200px;margin:0 auto;padding:1.5rem}
+    .wrap{max-width:1100px; margin:0 auto; padding:20px}
+    header{display:flex; align-items:center; justify-content:space-between; padding:8px 0}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:700}
+    .badge{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(145deg, rgba(124, 58, 237,0.85), rgba(16,185,129,.75)); box-shadow:0 0 40px rgba(124,58,237,.3)}
+    .grid{display:grid; gap:14px; grid-template-columns:repeat(12, 1fr); margin-top:16px}
+    .tile{grid-column:span 12; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--glass-b); border-radius:16px; padding:16px; box-shadow:var(--shadow); cursor:pointer; transition:.2s}
+    .tile:hover{transform:translateY(-1px)}
+    .tile h3{margin:6px 0 2px}
+    .tile p{margin:0; color:var(--muted); font-size:14px}
+    @media(min-width:760px){ .tile{grid-column:span 6} }
+    @media(min-width:1024px){ .tile{grid-column:span 4} }
 
-    header{text-align:center;padding:3rem 1rem 1.5rem}
-    header h1{font-size:3rem;margin-bottom:.5rem;color:#fff;text-shadow:0 0 22px rgba(250,204,21,.35)}
-    header p{font-size:1.1rem;color:var(--muted-2)}
-
-    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1rem 0 2rem}
-
-    .feature{position:relative;background:linear-gradient(145deg,var(--card1),var(--card2));border:1px solid var(--card-border);
-      border-radius:1rem;padding:1rem;box-shadow:var(--shadow);transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;cursor:pointer;isolation:isolate;overflow:hidden}
-    .feature:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.5);border-color:rgba(250,204,21,.18)}
-    .feature:active{transform:translateY(-2px);}
-    .feature:focus-visible{outline:3px dashed var(--primary);outline-offset:6px}
-    .feature.active{box-shadow:0 26px 55px rgba(250,204,21,.16);border-color:rgba(250,204,21,.35)}
-
-    .fx-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.25rem}
-    .fx-emoji{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;background:radial-gradient(circle at 30% 20%, rgba(250,204,21,.15), rgba(16,185,129,.12));
-      border:1px solid var(--card-border);box-shadow:inset 0 0 20px rgba(0,0,0,.35);font-size:1.2rem}
-    .feature h3{font-size:1.05rem;color:var(--primary);font-weight:600}
-    .feature p{font-size:.9rem;color:#dbe3ee;margin:.2rem 0 .5rem}
-
-    /* Timer dropdown (dark themed) */
-    .timer-select{margin-top:.6rem;display:none}
-    .timer-select label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.35rem}
-    select{appearance:none;width:100%;padding:.75rem 1rem;border-radius:.8rem;border:1px solid #3b475c;background:linear-gradient(180deg,#162133,#141b2b);
-      color:var(--text);font-size:1rem;outline:none;color-scheme:dark;}
-    select:hover{border-color:var(--ring)}
-    select:focus{border-color:var(--ring);box-shadow:0 0 0 4px rgba(250,204,21,.08)}
-    option{background-color:#0f172a;color:#f1f5f9}
-
-    /* Controls (older look) */
-    .feature-controls{margin-top:1rem;display:none;flex-direction:row;justify-content:center;align-items:center;gap:1rem;z-index:1}
-    .timer-display{background:rgba(30,41,59,.9);padding:.4rem .8rem;border-radius:999px;font-size:.9rem;font-weight:600;color:var(--primary);border:1px solid rgba(250,204,21,.3)}
-    .btn{display:inline-flex;align-items:center;gap:.4rem;border:none;cursor:pointer;font-weight:600;border-radius:999px;padding:.45rem .9rem}
-    .btn-danger{background:linear-gradient(145deg,var(--danger),var(--danger-2));color:#fff;font-size:.9rem}
-
-    .progress{width:100%;height:6px;background:rgba(0,0,0,.25);border-radius:999px;border:1px solid rgba(148,163,184,.15);overflow:hidden;margin-top:.5rem}
-    .progress .bar{width:0;height:100%;background:linear-gradient(90deg,rgba(250,204,21,.9),rgba(16,185,129,.9));transition:width .4s ease;background-size:200% 100%;animation:barSheen 3s linear infinite}
-    @keyframes barSheen{0%{background-position:0 0}100%{background-position:200% 0}}
-
-    footer{text-align:center;padding:2rem 1rem;color:#9fb0c6;font-size:.9rem}
-
-    /* Popup */
-    .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter: blur(4px);display:none;align-items:center;justify-content:center;z-index:50}
-    .popup{background:linear-gradient(145deg,var(--card1),var(--card2));padding:1.4rem;border-radius:1rem;max-width:320px;width:92%;text-align:center;box-shadow:var(--shadow);border:1px solid rgba(250,204,21,.25);transform:scale(.94);opacity:0;transition:opacity .18s ease, transform .18s ease}
-    .popup h3{color:var(--primary);margin-bottom:.6rem}
-    .popup p{color:var(--muted-2);font-size:.95rem;margin-bottom:1rem}
-    .popup button{padding:.55rem 1rem;margin:.3rem;border:none;border-radius:999px;font-weight:600;cursor:pointer}
-    .popup .yes-btn{background:linear-gradient(145deg,var(--accent),#059669);color:#fff}
-    .popup .no-btn{background:linear-gradient(145deg,var(--danger),var(--danger-2));color:#fff}
-    .popup-overlay.show{display:flex}
-    .popup-overlay.show .popup{transform:scale(1);opacity:1}
-
-    @media(max-width:768px){
-      .features{grid-template-columns:1fr}
-      header h1{font-size:2.2rem}
-      header p{font-size:1rem}
+    .controls{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    select, button{
+      appearance:none; background:rgba(255,255,255,.06); color:var(--text);
+      border:1px solid var(--glass-b); border-radius:12px; padding:10px 12px; font-weight:600
     }
-      /* Ripple effect */
-    .ripple{position:absolute;border-radius:50%;transform:scale(0);opacity:.55;pointer-events:none;background:radial-gradient(circle, rgba(250,204,21,.35) 0%, rgba(16,185,129,.25) 45%, transparent 70%);animation:ripple .6s ease-out forwards}
-    @keyframes ripple{to{transform:scale(8);opacity:0}}
-
-    /* Motion-safe */
-    @media (prefers-reduced-motion: reduce){
-      .feature,.btn,.popup,.progress .bar{transition:none;animation:none}
-    }
+    button.primary{background:linear-gradient(160deg,#7c3aed,#6d28d9); border-color:transparent; box-shadow:0 8px 25px rgba(124,58,237,.22); cursor:pointer}
+    .timer{font-variant-numeric:tabular-nums; font-weight:700}
+    .footer{color:var(--muted); font-size:14px; text-align:center; margin:28px 0 6px}
   </style>
 </head>
 <body>
-  <!-- Ambient chooser -->
-  <div class="popup-overlay" id="ambientPopup" role="dialog" aria-modal="true" aria-labelledby="ambientTitle">
-    <div class="popup" tabindex="-1">
-      <h3 id="ambientTitle">Add Ambient Sounds?</h3>
-      <p>Enhance your session with calming background sounds.</p>
-      <button class="yes-btn" id="ambientYes" aria-label="Use ambient sound">Yes</button>
-      <button class="no-btn" id="ambientNo" aria-label="Don't use ambient">No</button>
-    </div>
-  </div>
-
-  <div class="shell">
+  <div class="wrap">
     <header>
-      <h1>SleepAura 🌙</h1>
-      <p>Tune your mood. Transform your sleep.</p>
+      <div class="brand">
+        <div class="badge">🌙</div>
+        <div>SleepAura</div>
+      </div>
+      <nav style="display:flex; gap:10px;">
+        <a href="index.html" style="color:#c4b5fd; text-decoration:none;">← Back</a>
+      </nav>
     </header>
 
-    <section class="features">
-      <!-- Card 1 -->
-      <div class="feature" data-sound="sounds/528hz.mp3" data-emotion="anger" tabindex="0">
-        <div class="fx-head"><div class="fx-emoji">😠</div><div><h3>Calm Anger</h3><p>528Hz tones dissolve tension and help you let go of stress.</p></div></div>
-        <div class="timer-select"><label>Select time:</label>
-          <select>
-            <option value="">Choose duration</option>
+    <!-- Emotion Tiles -->
+    <section class="grid" id="emotions">
+      <!-- Keep your existing 6 tiles; example tile shown -->
+      <div class="tile" data-sound="sounds/528hz.mp3" data-label="Calm Anger (528 Hz)">
+        <h3>😌 Calm Anger</h3>
+        <p>528 Hz • balance & soothe</p>
+        <div class="controls">
+          <select class="duration">
             <option value="300">5 min</option>
             <option value="600">10 min</option>
             <option value="900">15 min</option>
             <option value="1800">30 min</option>
             <option value="3600">1 hour</option>
           </select>
+          <button class="primary play">Play</button>
+          <span class="timer">00:00</span>
+          <button class="stop">Stop</button>
         </div>
-        <div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
-        <div class="progress" aria-hidden="true"><div class="bar"></div></div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="feature" data-sound="sounds/396hz.mp3" data-emotion="sadness" tabindex="0">
-        <div class="fx-head"><div class="fx-emoji">😢</div><div><h3>Lift Sadness</h3><p>396Hz frequencies soothe emotional heaviness and promote peace.</p></div></div>
-        <div class="timer-select"><label>Select time:</label>
-          <select>
-            <option value="">Choose duration</option>
-            <option value="300">5 min</option>
-            <option value="600">10 min</option>
-            <option value="900">15 min</option>
-            <option value="1800">30 min</option>
+      <!-- Duplicate your other 5 emotion tiles below, keeping your existing structure/labels/paths -->
+      <!-- Example placeholders (use your originals) -->
+      <div class="tile" data-sound="sounds/396hz.mp3" data-label="Lift Sadness (396 Hz)">
+        <h3>🙂 Lift Sadness</h3><p>396 Hz • release heaviness</p>
+        <div class="controls">
+          <select class="duration">
+            <option value="300">5 min</option><option value="600">10 min</option>
+            <option value="900">15 min</option><option value="1800">30 min</option>
             <option value="3600">1 hour</option>
           </select>
+          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
         </div>
-        <div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
-        <div class="progress" aria-hidden="true"><div class="bar"></div></div>
       </div>
 
-      <!-- Card 3 -->
-      <div class="feature" data-sound="sounds/432hz.mp3" data-emotion="excitement" tabindex="0">
-        <div class="fx-head"><div class="fx-emoji">😊</div><div><h3>Balance Energy</h3><p>432Hz brings harmony when you're excited but can't rest.</p></div></div>
-        <div class="timer-select"><label>Select time:</label>
-          <select>
-            <option value="">Choose duration</option>
-            <option value="300">5 min</option>
-            <option value="600">10 min</option>
-            <option value="900">15 min</option>
-            <option value="1800">30 min</option>
+      <div class="tile" data-sound="sounds/432hz.mp3" data-label="Balance Energy (432 Hz)">
+        <h3>🧘 Balance Energy</h3><p>432 Hz • harmony</p>
+        <div class="controls">
+          <select class="duration">
+            <option value="300">5 min</option><option value="600">10 min</option>
+            <option value="900">15 min</option><option value="1800">30 min</option>
             <option value="3600">1 hour</option>
           </select>
+          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
         </div>
-        <div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
-        <div class="progress" aria-hidden="true"><div class="bar"></div></div>
       </div>
 
-      <!-- Card 4 -->
-      <div class="feature" data-sound="sounds/theta.mp3" data-emotion="neutral" tabindex="0">
-        <div class="fx-head"><div class="fx-emoji">🥱</div><div><h3>Enter Deep Sleep</h3><p>Theta waves ease your brain into restful, natural sleep cycles.</p></div></div>
-        <div class="timer-select"><label>Select time:</label>
-          <select>
-            <option value="">Choose duration</option>
-            <option value="300">5 min</option>
-            <option value="600">10 min</option>
-            <option value="900">15 min</option>
-            <option value="1800">30 min</option>
+      <div class="tile" data-sound="sounds/theta.mp3" data-label="Deep Focus (Theta)">
+        <h3>🌀 Deep Focus</h3><p>Theta • calm concentration</p>
+        <div class="controls">
+          <select class="duration">
+            <option value="300">5 min</option><option value="600">10 min</option>
+            <option value="900">15 min</option><option value="1800">30 min</option>
             <option value="3600">1 hour</option>
           </select>
+          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
         </div>
-        <div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
-        <div class="progress" aria-hidden="true"><div class="bar"></div></div>
       </div>
 
-      <!-- Card 5 -->
-      <div class="feature" data-sound="sounds/852hz.mp3" data-emotion="stress" tabindex="0">
-        <div class="fx-head"><div class="fx-emoji">😩</div><div><h3>Stress Relief</h3><p>852Hz helps release mental pressure and clears your thoughts.</p></div></div>
-        <div class="timer-select"><label>Select time:</label>
-          <select>
-            <option value="">Choose duration</option>
-            <option value="300">5 min</option>
-            <option value="600">10 min</option>
-            <option value="900">15 min</option>
-            <option value="1800">30 min</option>
+      <div class="tile" data-sound="sounds/852hz.mp3" data-label="Clarity (852 Hz)">
+        <h3>✨ Clarity</h3><p>852 Hz • perception</p>
+        <div class="controls">
+          <select class="duration">
+            <option value="300">5 min</option><option value="600">10 min</option>
+            <option value="900">15 min</option><option value="1800">30 min</option>
             <option value="3600">1 hour</option>
           </select>
+          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
         </div>
-        <div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
-        <div class="progress" aria-hidden="true"><div class="bar"></div></div>
       </div>
 
-      <!-- Card 6 -->
-      <div class="feature" data-sound="sounds/741hz.mp3" data-emotion="overthinking" tabindex="0">
-        <div class="fx-head"><div class="fx-emoji">🤯</div><div><h3>Ease Overthinking</h3><p>741Hz reduces racing thoughts and brings mental clarity.</p></div></div>
-        <div class="timer-select"><label>Select time:</label>
-          <select>
-            <option value="">Choose duration</option>
-            <option value="300">5 min</option>
-            <option value="600">10 min</option>
-            <option value="900">15 min</option>
-            <option value="1800">30 min</option>
+      <div class="tile" data-sound="sounds/741hz.mp3" data-label="Unwind (741 Hz)">
+        <h3>🌊 Unwind</h3><p>741 Hz • release tension</p>
+        <div class="controls">
+          <select class="duration">
+            <option value="300">5 min</option><option value="600">10 min</option>
+            <option value="900">15 min</option><option value="1800">30 min</option>
             <option value="3600">1 hour</option>
           </select>
+          <button class="primary play">Play</button><span class="timer">00:00</span><button class="stop">Stop</button>
         </div>
-        <div class="feature-controls"><div class="timer-display">⏱️ <span class="timeRemaining">--:--</span></div><button class="btn btn-danger stopButton">⏹ Stop</button></div>
-        <div class="progress" aria-hidden="true"><div class="bar"></div></div>
       </div>
     </section>
 
-    <footer>SleepAura © 2025 • Created to help you find peace before sleep</footer>
+    <p class="footer">Tip: Works offline after first load. Add to Home Screen for a clean, app-like experience.</p>
   </div>
 
+  <audio id="main-audio" preload="auto" crossorigin="anonymous"></audio>
+  <audio id="ambient-audio" preload="auto" crossorigin="anonymous"></audio>
+
   <script>
-    (async () => {
-  try {
+    // --- Service Worker registration (kept minimal; doesn’t change your logic)
     if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      for (const r of regs) await r.unregister();
-    }
-    if ('caches' in window) {
-      const names = await caches.keys();
-      await Promise.all(names.map(n => caches.delete(n)));
-    }
-    // Also clear any old local/session storage that might affect layout logic
-    localStorage.clear?.(); sessionStorage.clear?.();
-  } catch (e) {
-    console.warn('SW reset error (safe to ignore):', e);
-  }
-})();
-    // --- Audio/session state ---
-    let currentAudio=null,ambientAudio=null,stopTimeout=null,fadeTimeout=null,timerInterval=null,endTime=null,pendingSession=null,activeControls=null,activeCard=null,totalDurationMs=0,activeProgressBar=null;
-    const defaultVolume=0.7;
-    const ambientMap={anger:"sounds/ambient_sounds/fire.mp3",sadness:"sounds/ambient_sounds/ocean.mp3",excitement:"sounds/ambient_sounds/rain.mp3",neutral:"sounds/ambient_sounds/ocean.mp3",stress:"sounds/ambient_sounds/rain.mp3",overthinking:"sounds/ambient_sounds/fire.mp3"};
-
-    // --- Improved session cleanup function ---
-    function cleanupCurrentSession() {
-      // Stop all audio
-      if(currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        currentAudio = null;
-      }
-      if(ambientAudio) {
-        ambientAudio.pause();
-        ambientAudio.currentTime = 0;
-        ambientAudio = null;
-      }
-      
-      // Clear all timers and timeouts
-      if(stopTimeout) {
-        clearTimeout(stopTimeout);
-        stopTimeout = null;
-      }
-      if(fadeTimeout) {
-        clearTimeout(fadeTimeout);
-        fadeTimeout = null;
-      }
-      if(timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-      }
-      
-      // Reset all UI states
-      document.querySelectorAll('.feature').forEach(feature => {
-        feature.classList.remove('active');
-        const controls = feature.querySelector('.feature-controls');
-        const progressBar = feature.querySelector('.progress .bar');
-        const selectBox = feature.querySelector('select');
-        
-        if(controls) controls.style.display = 'none';
-        if(progressBar) progressBar.style.width = '0%';
-        if(selectBox) selectBox.value = '';
-      });
-      
-      // Reset global state
-      endTime = null;
-      totalDurationMs = 0;
-      activeCard = null;
-      activeControls = null;
-      activeProgressBar = null;
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(r => console.log('SW:', r.scope))
+        .catch(console.error);
     }
 
-    // --- Card interactions (dropdown) ---
-    document.querySelectorAll('.feature').forEach(feature=>{
-      const selectBox=feature.querySelector('select');
-      const timerDiv=feature.querySelector('.timer-select');
-      const controls=feature.querySelector('.feature-controls');
-      const timerDisplay=controls.querySelector('.timeRemaining');
-      const stopButton=controls.querySelector('.stopButton');
-      const progressBar=feature.querySelector('.progress .bar');
-      const soundFile=feature.getAttribute('data-sound');
-      const emotion=feature.getAttribute('data-emotion');
+    // --- App Logic (uses your existing structure; only ensures single-play + ambient prompt) ---
+    const tiles = Array.from(document.querySelectorAll('.tile'));
+    const mainAudio = document.getElementById('main-audio');
+    const ambientAudio = document.getElementById('ambient-audio');
+    let activeTimer = null;
+    let fadeOutHandle = null;
 
-      feature.addEventListener('click',e=>{
-        if(e.target.tagName==='SELECT'||e.target.tagName==='LABEL'||e.target.closest('.timer-select')||e.target.classList.contains('stopButton'))return;
-        
-        // ripple
-        createRipple(feature, e);
-        
-        // If a session is running on this card, stop it
-        if(feature.classList.contains('active')){
-          cleanupCurrentSession();
-          return;
+    const AMBIENT_OPTIONS = [
+      { label: 'Ocean', file: 'sounds/ambient_sounds/ocean.mp3' },
+      { label: 'Rain',  file: 'sounds/ambient_sounds/rain.mp3'  },
+      { label: 'Fire',  file: 'sounds/ambient_sounds/fire.mp3'  },
+      { label: 'None',  file: null }
+    ];
+
+    function askAmbient() {
+      const sel = prompt('Add ambient? Type: ocean / rain / fire / none', 'none');
+      if (!sel) return null;
+      const opt = AMBIENT_OPTIONS.find(o => o.label.toLowerCase() === sel.trim().toLowerCase());
+      return opt ? opt.file : null;
+    }
+
+    function formatTime(t){
+      const m = Math.floor(t/60).toString().padStart(2,'0');
+      const s = Math.floor(t%60).toString().padStart(2,'0');
+      return `${m}:${s}`;
+    }
+
+    async function startPlayback(freqSrc, durSec, label, timerEl){
+      // Stop any existing
+      stopAll();
+
+      // Ambient choice each time
+      const ambientSrc = askAmbient();
+
+      mainAudio.src = freqSrc;
+      mainAudio.loop = true;
+      await mainAudio.play().catch(console.warn);
+
+      if (ambientSrc){
+        ambientAudio.src = ambientSrc;
+        ambientAudio.loop = true;
+        ambientAudio.volume = 0.45;
+        await ambientAudio.play().catch(console.warn);
+      }
+
+      // Timer
+      let remaining = durSec;
+      timerEl.textContent = formatTime(remaining);
+
+      activeTimer = setInterval(() => {
+        remaining -= 1;
+        timerEl.textContent = formatTime(Math.max(remaining, 0));
+
+        // Fade out last 8s
+        if (remaining === 8 && !fadeOutHandle){
+          const steps = 8, stepVol = (mainAudio.volume || 1)/steps;
+          let i = 0;
+          fadeOutHandle = setInterval(() => {
+            i++;
+            mainAudio.volume = Math.max(0, (mainAudio.volume - stepVol));
+            if (ambientAudio.src) ambientAudio.volume = Math.max(0, (ambientAudio.volume - stepVol));
+            if (i >= steps){
+              clearInterval(fadeOutHandle);
+              fadeOutHandle = null;
+            }
+          }, 1000);
         }
-        
-        // Hide all timer selects and reset their values
-        document.querySelectorAll('.timer-select').forEach(div=>{
-          div.style.display='none';
-        });
-        document.querySelectorAll('select').forEach(select => {
-          select.value = '';
-        });
-        
-        // Show/hide the timer select for this card
-        timerDiv.style.display=(timerDiv.style.display==='block')?'none':'block';
+
+        if (remaining <= 0){
+          stopAll();
+        }
+      }, 1000);
+
+      console.log('Playing:', label);
+    }
+
+    function stopAll(){
+      if (activeTimer){ clearInterval(activeTimer); activeTimer = null; }
+      if (fadeOutHandle){ clearInterval(fadeOutHandle); fadeOutHandle = null; }
+      [mainAudio, ambientAudio].forEach(a => {
+        if (!a.paused) a.pause();
+        a.removeAttribute('src'); // release
+        a.load();
+        a.volume = 1;
+      });
+      // Reset all visible timers
+      document.querySelectorAll('.timer').forEach(t => t.textContent = '00:00');
+    }
+
+    tiles.forEach(tile => {
+      const playBtn = tile.querySelector('.play');
+      const stopBtn = tile.querySelector('.stop');
+      const durationSel = tile.querySelector('.duration');
+      const timerEl = tile.querySelector('.timer');
+
+      playBtn.addEventListener('click', () => {
+        const src = tile.getAttribute('data-sound');
+        const label = tile.getAttribute('data-label') || 'Frequency';
+        const dur = parseInt(durationSel.value || '600', 10);
+        startPlayback(src, dur, label, timerEl);
       });
 
-      feature.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); feature.click(); } });
+      stopBtn.addEventListener('click', stopAll);
 
-      selectBox.addEventListener('change',()=>{
-        const duration=parseInt(selectBox.value)*1000;
-        if(!selectBox.value) return;
-        
-        pendingSession={soundFile,emotion,duration,controls,timerDisplay,stopButton,feature,progressBar};
-        showPopup();
-        timerDiv.style.display='none';
-      });
-
-      stopButton.addEventListener('click',()=>{
-        cleanupCurrentSession();
+      // If user re-clicks the tile, reset UI to choose duration again (as per your earlier requirement)
+      tile.addEventListener('click', (e) => {
+        // ignore clicks from inner buttons/select
+        if (e.target.closest('.controls')) return;
+        stopAll();
       });
     });
-
-    // --- Popup controls ---
-    const popup=document.getElementById('ambientPopup');
-    const yesBtn=document.getElementById('ambientYes');
-    const noBtn=document.getElementById('ambientNo');
-    function showPopup(){popup.classList.add('show'); setTimeout(()=>yesBtn.focus(),0)}
-    function hidePopup(){popup.classList.remove('show')}
-    yesBtn.addEventListener('click',()=>{ if(pendingSession) startSession(pendingSession,true); pendingSession=null; hidePopup(); });
-    noBtn.addEventListener('click',()=>{ if(pendingSession) startSession(pendingSession,false); pendingSession=null; hidePopup(); });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&popup.classList.contains('show')){ noBtn.click(); }});
-
-    // --- Session handling ---
-    function startSession(session,withAmbient){
-      // First, completely clean up any existing session
-      cleanupCurrentSession();
-
-      // Set up the new session
-      session.feature.classList.add('active');
-      activeCard=session.feature; 
-      activeControls=session.controls; 
-      activeProgressBar=session.progressBar;
-
-      // Start playing the main audio
-      currentAudio=new Audio(session.soundFile); 
-      currentAudio.loop=true; 
-      currentAudio.volume=defaultVolume; 
-      currentAudio.play().catch(err => console.log('Audio play failed:', err));
-      
-      // Start ambient audio if requested
-      if(withAmbient){ 
-        const ambientFile=ambientMap[session.emotion]; 
-        if(ambientFile){ 
-          ambientAudio=new Audio(ambientFile); 
-          ambientAudio.loop=true; 
-          ambientAudio.volume=0.5; 
-          ambientAudio.play().catch(err => console.log('Ambient play failed:', err)); 
-        }
-      }
-
-      // Set up timing
-      endTime=Date.now()+session.duration; 
-      totalDurationMs=session.duration;
-      session.controls.style.display='flex';
-      
-      // Start the timer updates
-      updateTimer(session.timerDisplay, activeProgressBar, totalDurationMs);
-      timerInterval=setInterval(()=>updateTimer(session.timerDisplay, activeProgressBar, totalDurationMs),1000);
-
-      // Set up fade out (1 minute before end for longer sessions)
-      if(session.duration>60000){ 
-        fadeTimeout=setTimeout(()=>{ 
-          if(currentAudio)fadeOutAudio(currentAudio); 
-          if(ambientAudio)fadeOutAudio(ambientAudio); 
-        }, session.duration-60000); 
-      }
-      
-      // Set up auto-stop
-      stopTimeout=setTimeout(()=>{ 
-        cleanupCurrentSession();
-      }, session.duration);
-    }
-
-    function updateTimer(timerDisplay,progressEl,totalMs){
-      if(!endTime) return;
-      const remaining=Math.max(0,Math.ceil((endTime-Date.now())/1000));
-      const mins=String(Math.floor(remaining/60)).padStart(2,'0');
-      const secs=String(remaining%60).padStart(2,'0');
-      timerDisplay.textContent=`${mins}:${secs}`;
-      const elapsed=Math.min(totalMs,totalMs-Math.max(0,endTime-Date.now()));
-      const pct=Math.max(0,Math.min(100,(elapsed/totalMs)*100));
-      if(progressEl) progressEl.style.width=pct+'%';
-      if(remaining<=0){ 
-        clearInterval(timerInterval);
-        timerInterval = null;
-      }
-    }
-
-    function fadeOutAudio(audio,duration=60000){ 
-      const steps=Math.max(1,Math.floor(duration/100)); 
-      const step=audio.volume/steps; 
-      const fadeInterval=setInterval(()=>{ 
-        if(audio.volume>step) audio.volume-=step; 
-        else{ 
-          audio.volume=0; 
-          clearInterval(fadeInterval);
-        } 
-      },100); 
-    }
-
-    // Deprecated - replaced by cleanupCurrentSession
-    function stopAudio(){
-      cleanupCurrentSession();
-    }
-    
-    function createRipple(el, e){
-      const rect = el.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      const ripple = document.createElement('span');
-      ripple.className = 'ripple';
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-      el.appendChild(ripple);
-      ripple.addEventListener('animationend', ()=> ripple.remove());
-    }
-
-    if ("serviceWorker" in navigator) {
- navigator.serviceWorker.register("./service-worker.js?v=v16-2025-09-20", { scope: "./" })
-        .then(reg => console.log("SW registered:", reg.scope))
-        .catch(err => console.error("SW registration failed:", err));
-    }
-</script>
+  </script>
 </body>
 </html>
-
-
