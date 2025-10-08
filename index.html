@@ -114,4 +114,92 @@
         .steps {
             margin-top: 10px;
             display: grid;
-            gr
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+        .card {
+            grid-column: span 12;
+            background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+        .card h3 { margin: 4px 0 2px; }
+        .card p { margin: 0; color: var(--muted); }
+
+        @media (min-width: 720px) {
+            .card { grid-column: span 6; }
+        }
+        @media (min-width: 1000px) {
+            .card { grid-column: span 4; }
+        }
+
+        /* Footer */
+        footer {
+            margin: 48px 0 16px;
+            color: var(--muted);
+            font-size: 14px;
+            text-align: center;
+        }
+        a { color: #c4b5fd; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="wrap" style="display:flex; align-items:center; justify-content:space-between;">
+            <div class="brand">
+                <div class="brand-badge"><span>🌙</span></div>
+                <div>SleepAura</div>
+            </div>
+            <nav style="display:flex; gap:10px;">
+                <a class="btn secondary" href="#how">How it works</a>
+                <a class="btn" href="player.html">Try the App</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <section class="hero">
+            <h1>Find Calm. Sleep Deep. Wake Clear.</h1>
+            <p>Emotion-based healing frequencies + optional ambient layers. Safe, simple, and crafted for focus, rest, and recovery.</p>
+            <div class="cta-row">
+                <a class="btn" href="player.html">Start Free Session</a>
+                <a class="btn secondary" href="#how">See how it works</a>
+            </div>
+        </section>
+
+        <section id="how" class="steps">
+            <div class="card">
+                <h3>1) Pick your mood</h3>
+                <p>Choose the emotion you want to balance (e.g., calm anger with 528 Hz).</p>
+            </div>
+            <div class="card">
+                <h3>2) Set a timer</h3>
+                <p>5, 10, 15, 30 minutes, or 1 hour—your choice.</p>
+            </div>
+            <div class="card">
+                <h3>3) Add ambience (optional)</h3>
+                <p>Layer in ocean, rain, or fire sounds for a richer soundscape.</p>
+            </div>
+            <div class="card">
+                <h3>4) Press play</h3>
+                <p>Relax, breathe, and let the sound do the work.</p>
+            </div>
+        </section>
+
+        <footer>
+            Made with peace • © SleepAura
+        </footer>
+    </main>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(reg => console.log("SW registered:", reg.scope))
+      .catch(err => console.error("SW registration failed:", err));
+  }
+</script>
+</body>
+</html>
