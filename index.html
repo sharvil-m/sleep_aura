@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to SleepAura 🌙</title>
+    <meta name="theme-color" content="#7c3aed">
+    <title>SleepAura 🌙 - Transform Your Sleep with Healing Frequencies</title>
     <meta name="description" content="Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling. Choose your emotion, set your timer, and drift into deep rest." />
     <meta name="author" content="SleepAura" />
     <meta name="keywords" content="sleep, healing frequencies, meditation, relaxation, stress relief, better sleep, 528hz, theta waves, sleep aid" />
@@ -11,6 +12,8 @@
     <meta property="og:title" content="SleepAura 🌙 - Transform Your Sleep with Healing Frequencies" />
     <meta property="og:description" content="Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling." />
     <meta property="og:type" content="website" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -20,28 +23,68 @@
         }
 
         :root {
-            --background: 240 10% 4%;
-            --foreground: 0 0% 98%;
-            --card: 240 10% 8%;
-            --card-foreground: 0 0% 98%;
-            --primary: 245 66% 61%;
-            --primary-foreground: 0 0% 98%;
-            --secondary: 258 90% 66%;
-            --accent: 258 90% 76%;
-            --accent-foreground: 0 0% 98%;
-            --muted-foreground: 240 4% 66%;
-            --border: 245 30% 20%;
-            --aurora-purple: 258 90% 66%;
-            --aurora-violet: 245 66% 61%;
-            --aurora-pink: 330 100% 70%;
+            --bg1: #0f172a;
+            --bg2: #1e293b;
+            --card: #1e293b;
+            --card2: #334155;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --primary: #facc15;
+            --accent: #facc15;
+            --border: rgba(148, 163, 184, 0.12);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background-color: hsl(var(--background));
-            color: hsl(var(--foreground));
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: radial-gradient(1200px 800px at 20% -10%, rgba(250, 204, 21, 0.06), transparent 50%),
+                        radial-gradient(1000px 800px at 110% 10%, rgba(250, 204, 21, 0.08), transparent 50%),
+                        linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg1) 100%);
+            background-attachment: fixed;
+            color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            animation: bgShift 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0 0, 0 0, 0 0; }
+            100% { background-position: 30px -30px, -40px 20px, 0 0; }
+        }
+
+        /* Aurora Background Effects - Hidden, using gradient background instead */
+        .aurora-background {
+            display: none;
+        }
+
+
+        @keyframes color-shift {
+            0%, 100% { 
+                color: #fff;
+                text-shadow: 0 0 22px rgba(250, 204, 21, 0.5),
+                             0 0 44px rgba(250, 204, 21, 0.3),
+                             0 0 66px rgba(250, 204, 21, 0.2);
+            }
+            50% { 
+                color: var(--primary);
+                text-shadow: 0 0 30px rgba(250, 204, 21, 0.7),
+                             0 0 60px rgba(250, 204, 21, 0.5),
+                             0 0 90px rgba(250, 204, 21, 0.4);
+            }
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes box-glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(250, 204, 21, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(250, 204, 21, 0.6); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .container {
@@ -50,75 +93,8 @@
             padding: 0 1.5rem;
         }
 
-        /* Aurora Background Effects */
-        .aurora-background {
-            position: fixed;
-            inset: 0;
-            z-index: -10;
-            pointer-events: none;
-        }
-
-        .aurora-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            animation: aurora-float 6s ease-in-out infinite;
-        }
-
-        .aurora-blob-1 {
-            top: 5rem;
-            left: 2.5rem;
-            width: 24rem;
-            height: 24rem;
-            background-color: hsla(var(--primary), 0.2);
-        }
-
-        .aurora-blob-2 {
-            top: 10rem;
-            right: 5rem;
-            width: 20rem;
-            height: 20rem;
-            background-color: hsla(var(--aurora-pink), 0.15);
-            animation-delay: 2s;
-        }
-
-        .aurora-blob-3 {
-            bottom: 5rem;
-            left: 33%;
-            width: 18rem;
-            height: 18rem;
-            background-color: hsla(var(--accent), 0.1);
-            animation-delay: 4s;
-        }
-
-        @keyframes aurora-float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.3; }
-            33% { transform: translate(-30px, -30px) rotate(120deg); opacity: 0.5; }
-            66% { transform: translate(30px, -15px) rotate(240deg); opacity: 0.4; }
-        }
-
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% { box-shadow: 0 0 20px hsla(var(--aurora-pink), 0.3); }
-            50% { box-shadow: 0 0 40px hsla(var(--aurora-pink), 0.6); }
-        }
-
         .animate-fade-in-up {
             animation: fade-in-up 0.8s ease-out;
-        }
-
-        .animate-glow-pulse {
-            animation: glow-pulse 2s ease-in-out infinite;
         }
 
         /* Hero Section */
@@ -139,12 +115,11 @@
         .hero h1 {
             font-size: 4rem;
             font-weight: bold;
-            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--aurora-pink)));
-            background-size: 200% 100%;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-flow 3s ease infinite;
+            color: #fff;
+            text-shadow: 0 0 22px rgba(250, 204, 21, 0.5),
+                         0 0 44px rgba(250, 204, 21, 0.3),
+                         0 0 66px rgba(250, 204, 21, 0.2);
+            animation: color-shift 4s ease-in-out infinite;
             margin-bottom: 2rem;
         }
 
@@ -152,13 +127,17 @@
             font-size: 1.875rem;
             font-weight: 300;
             margin-bottom: 1rem;
+            color: #cbd5e1;
+            text-shadow: 0 0 18px rgba(250, 204, 21, 0.3),
+                         0 0 36px rgba(250, 204, 21, 0.2);
+            animation: color-shift 5s ease-in-out infinite;
         }
 
         .hero-description {
             font-size: 1.25rem;
             max-width: 48rem;
             margin: 0 auto 3rem;
-            color: hsl(var(--muted-foreground));
+            color: var(--muted);
         }
 
         .badge {
@@ -168,15 +147,16 @@
             padding: 1.5rem 3rem;
             border-radius: 9999px;
             margin-bottom: 2rem;
-            background: linear-gradient(to right, hsl(245 66% 61% / 0.3), hsl(258 90% 76% / 0.3));
-            border: 1px solid hsl(245 66% 61% / 0.4);
+            background: radial-gradient(circle at 30% 20%, rgba(250, 204, 21, 0.15), rgba(250, 204, 21, 0.08));
+            border: 1px solid var(--border);
             backdrop-filter: blur(8px);
         }
 
         .badge-text {
             font-size: 1.5rem;
             font-weight: 600;
-            color: hsl(var(--primary));
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
         }
 
         .btn-primary {
@@ -187,8 +167,8 @@
             padding: 1.5rem 2rem;
             font-size: 1.125rem;
             font-weight: 600;
-            color: hsl(var(--primary-foreground));
-            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+            color: var(--bg1);
+            background: linear-gradient(145deg, var(--primary), var(--accent));
             border: none;
             border-radius: 0.5rem;
             cursor: pointer;
@@ -198,7 +178,7 @@
 
         .btn-primary:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 60px -10px hsla(var(--primary), 0.7);
+            box-shadow: 0 20px 60px -10px rgba(250, 204, 21, 0.7);
         }
 
         .coming-soon-badge {
@@ -207,18 +187,21 @@
             gap: 0.75rem;
             padding: 1rem 2rem;
             border-radius: 9999px;
-            background: linear-gradient(to right, hsl(330 100% 70% / 0.2), hsl(258 90% 76% / 0.2));
-            border: 1px solid hsl(330 100% 70% / 0.4);
+            background: radial-gradient(circle at 30% 20%, rgba(250, 204, 21, 0.15), rgba(250, 204, 21, 0.08));
+            border: 1px solid rgba(250, 204, 21, 0.3);
             backdrop-filter: blur(8px);
             margin-top: 2rem;
+            animation: box-glow-pulse 2s ease-in-out infinite;
         }
 
         .gradient-text {
-            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--aurora-pink)));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
             font-weight: 600;
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
         }
 
         /* Section Styles */
@@ -231,10 +214,11 @@
             font-weight: bold;
             text-align: center;
             margin-bottom: 1.5rem;
-            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #fff;
+            text-shadow: 0 0 22px rgba(250, 204, 21, 0.5),
+                         0 0 44px rgba(250, 204, 21, 0.3),
+                         0 0 66px rgba(250, 204, 21, 0.2);
+            animation: color-shift 4s ease-in-out infinite;
         }
 
         .section-description {
@@ -242,7 +226,7 @@
             text-align: center;
             max-width: 48rem;
             margin: 0 auto 4rem;
-            color: hsl(var(--muted-foreground));
+            color: #cbd5e1;
         }
 
         /* Card Grid */
@@ -255,15 +239,16 @@
 
         .card {
             padding: 2rem;
-            background: linear-gradient(145deg, hsl(240 10% 8%), hsl(240 10% 8% / 0.5));
-            border: 1px solid hsl(245 66% 61% / 0.3);
+            background: linear-gradient(145deg, var(--card), var(--card2));
+            border: 1px solid var(--border);
             border-radius: 1rem;
-            backdrop-filter: blur(8px);
-            transition: transform 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            transition: transform 0.5s ease, box-shadow 0.25s ease;
         }
 
         .card:hover {
-            transform: scale(1.05);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .card-icon {
@@ -275,18 +260,21 @@
             justify-content: center;
             font-size: 2rem;
             margin-bottom: 1.5rem;
-            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
-            box-shadow: 0 4px 12px hsla(var(--primary), 0.3);
+            background: radial-gradient(circle at 30% 20%, rgba(250, 204, 21, 0.15), rgba(250, 204, 21, 0.08));
+            border: 1px solid var(--border);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
         }
 
         .card h3 {
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 1rem;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
         }
 
         .card p {
-            color: hsl(var(--muted-foreground));
+            color: #dbe3ee;
             line-height: 1.6;
         }
 
@@ -300,12 +288,12 @@
 
         .feature-card {
             padding: 2rem;
-            background: linear-gradient(145deg, hsl(240 10% 8%), hsl(240 10% 8% / 0.5));
-            border: 1px solid hsl(245 66% 61% / 0.3);
+            background: linear-gradient(145deg, var(--card), var(--card2));
+            border: 1px solid var(--border);
             border-radius: 1rem;
-            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
             text-align: center;
-            transition: transform 0.7s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
             position: relative;
             overflow: hidden;
         }
@@ -314,17 +302,19 @@
             content: '';
             position: absolute;
             inset: 0;
-            opacity: 0.5;
-            background: linear-gradient(145deg, hsl(245 66% 61% / 0.1), hsl(258 90% 76% / 0.1));
-            transition: opacity 0.5s ease;
+            opacity: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(250, 204, 21, 0.08), rgba(250, 204, 21, 0.05));
+            transition: opacity 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: scale(1.05);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: rgba(250, 204, 21, 0.18);
         }
 
         .feature-card:hover::before {
-            opacity: 0.7;
+            opacity: 1;
         }
 
         .feature-icon {
@@ -336,9 +326,21 @@
             justify-content: center;
             font-size: 2rem;
             margin: 0 auto 1.5rem;
-            background: linear-gradient(to right, hsl(245 66% 61% / 0.3), hsl(258 90% 76% / 0.3));
+            background: radial-gradient(circle at 30% 20%, rgba(250, 204, 21, 0.15), rgba(250, 204, 21, 0.08));
+            border: 1px solid var(--border);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
             position: relative;
             z-index: 10;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 10;
+            color: var(--text);
+            text-shadow: 0 0 12px rgba(250, 204, 21, 0.3);
         }
 
         .feature-freq {
@@ -346,8 +348,57 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: hsl(var(--accent));
+            color: var(--accent);
             margin: 0.5rem 0;
+            position: relative;
+            z-index: 10;
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: #dbe3ee;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* How It Works */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--bg1);
+            box-shadow: 0 4px 20px rgba(250, 204, 21, 0.4);
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+        }
+
+        .step p {
+            color: var(--muted);
         }
 
         /* CTA Section */
@@ -360,15 +411,16 @@
             font-size: 3.5rem;
             font-weight: bold;
             margin-bottom: 2rem;
-            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--aurora-pink)));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #fff;
+            text-shadow: 0 0 22px rgba(250, 204, 21, 0.5),
+                         0 0 44px rgba(250, 204, 21, 0.3),
+                         0 0 66px rgba(250, 204, 21, 0.2);
+            animation: color-shift 4s ease-in-out infinite;
         }
 
         .cta-description {
             font-size: 1.25rem;
-            color: hsl(var(--muted-foreground));
+            color: var(--muted);
             max-width: 40rem;
             margin: 0 auto 2rem;
         }
@@ -383,8 +435,8 @@
         footer {
             text-align: center;
             padding: 2rem 1.5rem;
-            color: hsl(240 4% 66%);
-            border-top: 1px solid hsl(245 30% 20% / 0.5);
+            color: #9fb0c6;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
         }
 
         /* Responsive */
@@ -410,18 +462,10 @@
             }
 
             .card-grid,
-            .features-grid {
+            .features-grid,
+            .steps-grid {
                 grid-template-columns: 1fr;
             }
-        }
-
-        .pulse {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
         }
     </style>
 </head>
@@ -452,14 +496,14 @@
             </div>
 
             <div class="animate-fade-in-up" style="animation-delay: 0.3s;">
-                <button class="btn-primary">
+                <a href="/app.html" class="btn-primary" style="text-decoration: none;">
                     <span style="margin-right: 0.75rem;">▶</span>
                     Try Now
-                </button>
+                </a>
             </div>
 
             <div class="animate-fade-in-up" style="animation-delay: 0.6s;">
-                <div class="coming-soon-badge animate-glow-pulse">
+                <div class="coming-soon-badge">
                     <span class="pulse">✨</span>
                     <span class="gradient-text">Better versions coming soon</span>
                     <span class="pulse">✨</span>
@@ -501,89 +545,83 @@
         </div>
     </section>
 
-    <!-- How to Use Section -->
-    <section>
+    <!-- How It Works Section -->
+    <section style="background: linear-gradient(145deg, hsl(240 10% 6%), hsl(240 10% 4%));">
         <div class="container">
-            <div class="animate-fade-in-up">
-                <h2 class="section-title">Three Simple Steps to Better Sleep</h2>
-                <p class="section-description">
-                    Transform your emotional state and achieve deep, restorative sleep in minutes
-                </p>
-            </div>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-description">
+                Three simple steps to transform your sleep experience
+            </p>
 
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-icon">❤️</div>
-                    <h3>1. Choose Your Emotion</h3>
-                    <p>Select what you're feeling: stress, anger, sadness, excitement, or overthinking</p>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Choose Your Emotion</h3>
+                    <p>Select the emotion you're feeling - from stress to excitement, anger to overthinking</p>
                 </div>
-
-                <div class="card">
-                    <div class="card-icon">⏱️</div>
-                    <h3>2. Set Your Duration</h3>
-                    <p>Pick your perfect session length from 5 minutes to 1 hour</p>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Set Your Timer</h3>
+                    <p>Pick a duration from 5 minutes to 1 hour, and add optional ambient sounds</p>
                 </div>
-
-                <div class="card">
-                    <div class="card-icon">🌙</div>
-                    <h3>3. Drift Into Peace</h3>
-                    <p>Let healing frequencies guide you into deep, restful sleep naturally</p>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Drift Into Sleep</h3>
+                    <p>Let the healing frequencies guide you into deep, peaceful, restorative rest</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Healing Frequencies Section -->
     <section>
         <div class="container">
-            <div class="animate-fade-in-up">
-                <h2 class="section-title" style="font-size: 3.5rem;">Discover the Different Varieties Offered</h2>
-                <p class="section-description">
-                    Explore our carefully curated collection of sleep experiences, each designed to transform your emotional state
-                </p>
-            </div>
+            <h2 class="section-title">Healing Frequencies</h2>
+            <p class="section-description">
+                Each emotion is matched with a specific healing frequency designed to restore balance
+            </p>
 
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">😠</div>
+                    <div class="feature-freq">528Hz</div>
                     <h3>Calm Anger</h3>
-                    <p class="feature-freq">528Hz</p>
-                    <p>Dissolves tension and helps you let go of stress and frustration</p>
+                    <p>Dissolve tension and let go of stress</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">😢</div>
+                    <div class="feature-freq">396Hz</div>
                     <h3>Lift Sadness</h3>
-                    <p class="feature-freq">396Hz</p>
-                    <p>Soothes emotional heaviness and promotes inner peace</p>
+                    <p>Soothe emotional heaviness and promote peace</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">😊</div>
+                    <div class="feature-freq">432Hz</div>
                     <h3>Balance Energy</h3>
-                    <p class="feature-freq">432Hz</p>
-                    <p>Brings harmony when you're excited but can't rest</p>
+                    <p>Find harmony when excited but can't rest</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">🥱</div>
+                    <div class="feature-freq">Theta</div>
                     <h3>Deep Sleep</h3>
-                    <p class="feature-freq">Theta</p>
-                    <p>Eases your brain into restful, natural sleep cycles</p>
+                    <p>Ease into restful, natural sleep cycles</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">😩</div>
+                    <div class="feature-freq">852Hz</div>
                     <h3>Stress Relief</h3>
-                    <p class="feature-freq">852Hz</p>
-                    <p>Releases mental pressure and clears your thoughts</p>
+                    <p>Release mental pressure and clear thoughts</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">🤯</div>
+                    <div class="feature-freq">741Hz</div>
                     <h3>Ease Overthinking</h3>
-                    <p class="feature-freq">741Hz</p>
-                    <p>Reduces racing thoughts and brings mental clarity</p>
+                    <p>Reduce racing thoughts and find clarity</p>
                 </div>
             </div>
         </div>
@@ -594,12 +632,11 @@
         <div class="container">
             <h2 class="cta-title">Ready to Transform Your Sleep?</h2>
             <p class="cta-description">
-                Start your journey to better sleep tonight. No signup required - just choose your emotion and drift away.
+                Start your journey to peaceful, restorative sleep tonight
             </p>
-            <button class="btn-primary btn-cta">
-                <span style="margin-right: 0.75rem;">▶</span>
-                Try SleepAura Now
-            </button>
+            <a href="/app.html" class="btn-primary btn-cta" style="text-decoration: none;">
+                Get Started Now
+            </a>
         </div>
     </section>
 
