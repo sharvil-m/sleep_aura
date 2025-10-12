@@ -1,17 +1,16 @@
-/* SleepAura SW – index (landing) + player + audio caching with Range support */
-const VERSION = 'v1-2025-10-08';
+/* SleepAura SW – SPA + audio caching with Range support */
+const VERSION = 'v1-2025-10-12';
 const CACHE_NAME = `sleepaura-${VERSION}`;
 
-/* Core files to precache */
+/* Core files to precache (SPA uses index.html for everything) */
 const PRECACHE_URLS = [
-  '/',                 // if your host serves index.html at root
-  '/index.html',       // landing
-  '/player.html',      // player page
+  '/',                 // serve index at root (if your host maps / -> /index.html)
+  '/index.html',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
 
-  // Frequencies (adjust paths if needed)
+  // Frequencies (adjust if filenames/paths differ)
   '/sounds/528hz.mp3',
   '/sounds/396hz.mp3',
   '/sounds/432hz.mp3',
@@ -27,9 +26,9 @@ const PRECACHE_URLS = [
 
 /* Install – precache essential assets */
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -45,30 +44,72 @@ self.addEventListener('activate', (event) => {
 /* Helper: partial content (Range) responder for cached audio */
 async function serveRangeFromCache(request) {
   const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request, { ignoreSearch: true });
-  if (!cached) return fetch(request); // fallback to network
+  // Try exact request first (keeps vary/search simple for audio)
+  let res = await cache.match(request);
+  if (!res) {
+    // Fetch and cache if not present
+    try {
+      res = await fetch(request);
+      if (res && res.ok) cache.put(request, res.clone());
+    } catch (e) {
+      // No network and no cache -> hard fail
+      return new Response(null, { status: 504, statusText: 'Offline for audio' });
+    }
+  }
+  // If still nothing, bail to network
+  if (!res) return fetch(request);
 
-  // If no Range header, just return the cached file
-  const rangeHeader = request.headers.get('range');
-  if (!rangeHeader) return cached;
+  // Convert body to ArrayBuffer to slice ranges
+  const buf = await res.arrayBuffer();
+  const size = buf.byteLength;
 
-  // Parse `bytes=start-end`
-  const size = (await cached.clone().arrayBuffer()).byteLength;
-  const m = /bytes=(\d+)-(\d+)?/.exec(rangeHeader);
-  if (!m) return cached;
+  const range = request.headers.get('Range');
+  if (!range) {
+    // No Range: return full file with Accept-Ranges
+    return new Response(buf, {
+      status: 200,
+      headers: {
+        'Content-Type': res.headers.get('Content-Type') || 'audio/mpeg',
+        'Content-Length': String(size),
+        'Accept-Ranges': 'bytes',
+        'Cache-Control': 'public, max-age=31536000, immutable'
+      }
+    });
+  }
+
+  // Parse "bytes=start-end"
+  const m = /bytes=(\d+)-(\d+)?/.exec(range);
+  if (!m) {
+    // Malformed Range -> serve full content
+    return new Response(buf, {
+      status: 200,
+      headers: {
+        'Content-Type': res.headers.get('Content-Type') || 'audio/mpeg',
+        'Content-Length': String(size),
+        'Accept-Ranges': 'bytes'
+      }
+    });
+  }
 
   const start = Number(m[1]);
   const end = m[2] ? Number(m[2]) : size - 1;
-  const chunk = (await cached.clone().arrayBuffer()).slice(start, end + 1);
 
+  if (start >= size || end >= size) {
+    // Unsatisfiable
+    return new Response(null, {
+      status: 416,
+      headers: { 'Content-Range': `bytes */${size}` }
+    });
+  }
+
+  const chunk = buf.slice(start, end + 1);
   return new Response(chunk, {
     status: 206,
-    statusText: 'Partial Content',
     headers: {
-      'Content-Type': cached.headers.get('Content-Type') || 'audio/mpeg',
+      'Content-Type': res.headers.get('Content-Type') || 'audio/mpeg',
       'Content-Range': `bytes ${start}-${end}/${size}`,
-      'Accept-Ranges': 'bytes',
       'Content-Length': String(chunk.byteLength),
+      'Accept-Ranges': 'bytes',
       'Cache-Control': 'public, max-age=31536000, immutable'
     }
   });
@@ -81,24 +122,24 @@ async function serveRangeFromCache(request) {
 */
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  const url = new URL(request.url);
-
-  // Only handle GET
   if (request.method !== 'GET') return;
 
-  // HTML pages (navigation requests)
-  if (request.mode === 'navigate' || request.destination === 'document' || url.pathname.endsWith('.html')) {
+  const url = new URL(request.url);
+
+  // HTML / SPA navigations
+  const isHTML = request.mode === 'navigate' ||
+                 request.destination === 'document' ||
+                 url.pathname.endsWith('.html');
+
+  if (isHTML) {
     event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
       try {
         const net = await fetch(request);
-        const cache = await caches.open(CACHE_NAME);
-        cache.put(request, net.clone());
+        if (net && net.ok) cache.put(request, net.clone());
         return net;
       } catch {
-        // Offline fallback to cached index or player
-        const cache = await caches.open(CACHE_NAME);
         return (await cache.match(request)) ||
-               (await cache.match('/player.html')) ||
                (await cache.match('/index.html')) ||
                new Response('<h1>Offline</h1>', { headers: { 'Content-Type': 'text/html' } });
       }
@@ -107,12 +148,13 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Audio with Range support
-  if (request.destination === 'audio' || url.pathname.endsWith('.mp3')) {
+  const isAudio = request.destination === 'audio' || url.pathname.endsWith('.mp3');
+  if (isAudio) {
     event.respondWith(serveRangeFromCache(request));
     return;
   }
 
-  // Default: Stale-While-Revalidate for assets (css/js/fonts/images)
+  // Default: Stale-While-Revalidate for assets (css/js/img/fonts)
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request);
@@ -120,7 +162,6 @@ self.addEventListener('fetch', (event) => {
       if (netRes && netRes.status === 200) cache.put(request, netRes.clone());
       return netRes;
     }).catch(() => null);
-
     return cached || fetchPromise || new Response(null, { status: 504 });
   })());
 });
