@@ -1,33 +1,34 @@
 /* SleepAura SW – SPA + audio caching with Range support */
-const VERSION = 'v1-2025-10-12';
+const VERSION = 'v1-2025-10-13';
 const CACHE_NAME = `sleepaura-${VERSION}`;
 
-/* Core files to precache (SPA uses index.html for everything) */
 const PRECACHE_URLS = [
-  '/',                 // serve index at root (if your host maps / -> /index.html)
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  './',
+  './index.html',
+  './player.html',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
 
-  // Frequencies (adjust if filenames/paths differ)
-  '/sounds/528hz.mp3',
-  '/sounds/396hz.mp3',
-  '/sounds/432hz.mp3',
-  '/sounds/theta.mp3',
-  '/sounds/852hz.mp3',
-  '/sounds/741hz.mp3',
+  // Frequencies
+  './sounds/528hz.mp3',
+  './sounds/396hz.mp3',
+  './sounds/432hz.mp3',
+  './sounds/theta.mp3',
+  './sounds/852hz.mp3',
+  './sounds/741hz.mp3',
 
   // Ambient
-  '/sounds/ambient_sounds/fire.mp3',
-  '/sounds/ambient_sounds/ocean.mp3',
-  '/sounds/ambient_sounds/rain.mp3'
+  './sounds/ambient_sounds/fire.mp3',
+  './sounds/ambient_sounds/ocean.mp3',
+  './sounds/ambient_sounds/rain.mp3'
 ];
 
 /* Install – precache essential assets */
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
       .then(() => self.skipWaiting())
   );
 });
@@ -44,89 +45,63 @@ self.addEventListener('activate', (event) => {
 /* Helper: partial content (Range) responder for cached audio */
 async function serveRangeFromCache(request) {
   const cache = await caches.open(CACHE_NAME);
-  // Try exact request first (keeps vary/search simple for audio)
-  let res = await cache.match(request);
-  if (!res) {
-    // Fetch and cache if not present
+  const cached = await cache.match(request, { ignoreVary: true, ignoreSearch: true });
+
+  // If Range requested and we have the whole file cached, slice it
+  const rangeHeader = request.headers.get('Range');
+
+  // If no cached response, just do network (with Range if asked)
+  if (!cached) {
     try {
-      res = await fetch(request);
-      if (res && res.ok) cache.put(request, res.clone());
+      const net = await fetch(request);
+      // cache successful 200 responses (not partials)
+      if (net && net.ok && net.status === 200) cache.put(request, net.clone());
+      return net;
     } catch (e) {
-      // No network and no cache -> hard fail
-      return new Response(null, { status: 504, statusText: 'Offline for audio' });
+      return new Response(null, { status: 504 });
     }
   }
-  // If still nothing, bail to network
-  if (!res) return fetch(request);
 
-  // Convert body to ArrayBuffer to slice ranges
-  const buf = await res.arrayBuffer();
-  const size = buf.byteLength;
-
-  const range = request.headers.get('Range');
-  if (!range) {
-    // No Range: return full file with Accept-Ranges
-    return new Response(buf, {
-      status: 200,
-      headers: {
-        'Content-Type': res.headers.get('Content-Type') || 'audio/mpeg',
-        'Content-Length': String(size),
-        'Accept-Ranges': 'bytes',
-        'Cache-Control': 'public, max-age=31536000, immutable'
-      }
-    });
-  }
+  // No range -> return cached as is
+  if (!rangeHeader) return cached;
 
   // Parse "bytes=start-end"
-  const m = /bytes=(\d+)-(\d+)?/.exec(range);
-  if (!m) {
-    // Malformed Range -> serve full content
-    return new Response(buf, {
-      status: 200,
-      headers: {
-        'Content-Type': res.headers.get('Content-Type') || 'audio/mpeg',
-        'Content-Length': String(size),
-        'Accept-Ranges': 'bytes'
-      }
-    });
+  const size = parseInt(cached.headers.get('Content-Length') || '0', 10);
+  const m = rangeHeader.match(/bytes=(\d*)-(\d*)/);
+  if (!m) return new Response(null, { status: 416 });
+
+  let start = m[1] ? parseInt(m[1], 10) : 0;
+  let end = m[2] ? parseInt(m[2], 10) : size - 1;
+  if (isNaN(start)) start = 0;
+  if (isNaN(end) || end >= size) end = size - 1;
+  if (start > end || start >= size) {
+    return new Response(null, { status: 416 });
   }
 
-  const start = Number(m[1]);
-  const end = m[2] ? Number(m[2]) : size - 1;
-
-  if (start >= size || end >= size) {
-    // Unsatisfiable
-    return new Response(null, {
-      status: 416,
-      headers: { 'Content-Range': `bytes */${size}` }
-    });
-  }
-
+  // Read the cached body fully then slice
+  const buf = await cached.arrayBuffer();
   const chunk = buf.slice(start, end + 1);
   return new Response(chunk, {
     status: 206,
     headers: {
-      'Content-Type': res.headers.get('Content-Type') || 'audio/mpeg',
+      'Content-Type': cached.headers.get('Content-Type') || 'audio/mpeg',
       'Content-Range': `bytes ${start}-${end}/${size}`,
-      'Content-Length': String(chunk.byteLength),
       'Accept-Ranges': 'bytes',
+      'Content-Length': String(chunk.byteLength),
+      // Allow media to be seekable properly on iOS too
       'Cache-Control': 'public, max-age=31536000, immutable'
     }
   });
 }
 
-/* Fetch strategy:
-   - HTML: NetworkFirst (offline -> cached)
-   - Audio (mp3): CacheFirst with Range support
-   - Everything else: StaleWhileRevalidate
-*/
+/* Fetch strategy */
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
 
-  // HTML / SPA navigations
+  // HTML / navigations (Network First)
   const isHTML = request.mode === 'navigate' ||
                  request.destination === 'document' ||
                  url.pathname.endsWith('.html');
@@ -135,26 +110,26 @@ self.addEventListener('fetch', (event) => {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_NAME);
       try {
-        const net = await fetch(request);
+        const net = await fetch(request, { cache: 'no-store' });
         if (net && net.ok) cache.put(request, net.clone());
         return net;
       } catch {
         return (await cache.match(request)) ||
-               (await cache.match('/index.html')) ||
+               (await cache.match('./index.html')) ||
                new Response('<h1>Offline</h1>', { headers: { 'Content-Type': 'text/html' } });
       }
     })());
     return;
   }
 
-  // Audio with Range support
+  // Audio (Cache First with Range)
   const isAudio = request.destination === 'audio' || url.pathname.endsWith('.mp3');
   if (isAudio) {
     event.respondWith(serveRangeFromCache(request));
     return;
   }
 
-  // Default: Stale-While-Revalidate for assets (css/js/img/fonts)
+  // Default assets – Stale-While-Revalidate
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request);
