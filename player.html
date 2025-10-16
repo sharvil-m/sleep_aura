@@ -3,10 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#10b981">
-  <meta name="color-scheme" content="dark light" />
-  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#facc15">
   <title>SleepAura 🌙 - Find Your Calm</title>
+<!-- PWA basics -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0f172a">
+
+<!-- iOS (no beforeinstallprompt on Safari/iOS) -->
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -26,10 +33,52 @@
       animation:bgShift 18s ease-in-out infinite alternate;
     }
     @keyframes bgShift{0%{background-position:0 0,0 0,0 0}100%{background-position:30px -30px,-40px 20px,0 0}}
+    
+    @keyframes colorShiftGlow {
+      0%, 100% { 
+        color: #fff;
+        text-shadow: 0 0 22px rgba(250, 204, 21, 0.5),
+                     0 0 44px rgba(250, 204, 21, 0.3),
+                     0 0 66px rgba(250, 204, 21, 0.2);
+      }
+      50% { 
+        color: #facc15;
+        text-shadow: 0 0 30px rgba(250, 204, 21, 0.7),
+                     0 0 60px rgba(250, 204, 21, 0.5),
+                     0 0 90px rgba(250, 204, 21, 0.4);
+      }
+    }
+
+    /* Install Button */
+    .install-btn {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: linear-gradient(145deg, var(--card1), var(--card2));
+      color: #fff;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      animation: colorShiftGlow 4s ease-in-out infinite;
+    }
+
+    .install-btn:hover {
+      transform: scale(1.05);
+    }
+
     .shell{max-width:1200px;margin:0 auto;padding:1.5rem}
 
     header{text-align:center;padding:3rem 1rem 1.5rem}
-    header h1{font-size:3rem;margin-bottom:.5rem;color:#fff;text-shadow:0 0 22px rgba(250,204,21,.35)}
+    header h1{font-size:3rem;margin-bottom:.5rem;animation: colorShiftGlow 4s ease-in-out infinite;}
     header p{font-size:1.1rem;color:var(--muted-2)}
 
     .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1rem 0 2rem}
@@ -84,7 +133,7 @@
       header h1{font-size:2.2rem}
       header p{font-size:1rem}
     }
-      /* Ripple effect */
+    /* Ripple effect */
     .ripple{position:absolute;border-radius:50%;transform:scale(0);opacity:.55;pointer-events:none;background:radial-gradient(circle, rgba(250,204,21,.35) 0%, rgba(16,185,129,.25) 45%, transparent 70%);animation:ripple .6s ease-out forwards}
     @keyframes ripple{to{transform:scale(8);opacity:0}}
 
@@ -95,6 +144,12 @@
   </style>
 </head>
 <body>
+  <!-- Install Button -->
+  <button class="install-btn" id="installBtn">
+    <span>📥</span>
+    <span>Install</span>
+  </button>
+
   <!-- Ambient chooser -->
   <div class="popup-overlay" id="ambientPopup" role="dialog" aria-modal="true" aria-labelledby="ambientTitle">
     <div class="popup" tabindex="-1">
@@ -219,22 +274,6 @@
   </div>
 
   <script>
-    (async () => {
-  try {
-    if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      for (const r of regs) await r.unregister();
-    }
-    if ('caches' in window) {
-      const names = await caches.keys();
-      await Promise.all(names.map(n => caches.delete(n)));
-    }
-    // Also clear any old local/session storage that might affect layout logic
-    localStorage.clear?.(); sessionStorage.clear?.();
-  } catch (e) {
-    console.warn('SW reset error (safe to ignore):', e);
-  }
-})();
     // --- Audio/session state ---
     let currentAudio=null,ambientAudio=null,stopTimeout=null,fadeTimeout=null,timerInterval=null,endTime=null,pendingSession=null,activeControls=null,activeCard=null,totalDurationMs=0,activeProgressBar=null;
     const defaultVolume=0.7;
@@ -426,11 +465,6 @@
         } 
       },100); 
     }
-
-    // Deprecated - replaced by cleanupCurrentSession
-    function stopAudio(){
-      cleanupCurrentSession();
-    }
     
     function createRipple(el, e){
       const rect = el.getBoundingClientRect();
@@ -443,12 +477,7 @@
       el.appendChild(ripple);
       ripple.addEventListener('animationend', ()=> ripple.remove());
     }
-
-    if ("serviceWorker" in navigator) {
- navigator.serviceWorker.register("./service-worker.js?v=v16-2025-09-20", { scope: "./" })
-        .then(reg => console.log("SW registered:", reg.scope))
-        .catch(err => console.error("SW registration failed:", err));
-    }
-</script>
+  </script>
+<script src="./install.js"></script>
 </body>
 </html>
