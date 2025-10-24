@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#facc15">
     <title>SleepAura 🌙 - Transform Your Sleep with Healing Frequencies</title>
     <meta name="description" content="Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling. Choose your emotion, set your timer, and drift into deep rest." />
     <meta name="author" content="SleepAura" />
     <meta name="keywords" content="sleep, healing frequencies, meditation, relaxation, stress relief, better sleep, 528hz, theta waves, sleep aid" />
+
+    <!-- Single manifest + theme color (root paths) -->
     <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#7c3aed">
+    <meta name="theme-color" content="#7c3aed">
 
-    <!-- PWA basics (install-button support) -->
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#0f172a">
-
-    <!-- iOS (no beforeinstallprompt on Safari/iOS) -->
-    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+    <!-- iOS (Safari doesn’t fire beforeinstallprompt) -->
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+    <!-- Open Graph -->
     <meta property="og:title" content="SleepAura 🌙 - Transform Your Sleep with Healing Frequencies" />
     <meta property="og:description" content="Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling." />
     <meta property="og:type" content="website" />
@@ -70,8 +68,6 @@
             animation: colorShiftGlow 4s ease-in-out infinite;
         }
         .install-btn:hover { transform: scale(1.05); }
-
-        /* ... (rest of your styles unchanged) ... */
 
         .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 5rem 1.5rem; text-align: center; }
         .hero-content { max-width: 72rem; margin: 0 auto; }
@@ -126,8 +122,8 @@
     </style>
 </head>
 <body>
-    <!-- Install Button -->
-    <button class="install-btn" id="installBtn">
+    <!-- Install Button (hidden until eligible) -->
+    <button class="install-btn" id="installBtn" style="display:none;">
         <span>📥</span>
         <span>Install</span>
     </button>
@@ -300,10 +296,39 @@
         <p>SleepAura © 2025 • Created to help you find peace before sleep</p>
     </footer>
 
-    <!-- Install logic -->
-    <script src="./install.js"></script>
+    <!-- PWA: SW registration + Install prompt -->
+    <script>
+    // Register SW (root scope)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+          .catch(err => console.error('SW registration failed:', err));
+      });
+    }
+
+    // Install button logic
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBtn) installBtn.style.display = 'inline-flex';
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+      });
+    }
+
+    window.addEventListener('appinstalled', () => {
+      if (installBtn) installBtn.style.display = 'none';
+    });
+    </script>
 </body>
 </html>
-
-
-
