@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#facc15">
   <title>SleepAura 🌙 - Find Your Calm</title>
+
+  <!-- Single manifest + theme-color (root-path manifest is important for PWA + SW scope) -->
   <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#7c3aed">
+  <meta name="theme-color" content="#7c3aed">
 
-
-  <!-- PWA basics (install-button support) -->
-  <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#0f172a">
-
-  <!-- iOS (no beforeinstallprompt on Safari/iOS) -->
-  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <!-- iOS (Safari doesn’t fire beforeinstallprompt) -->
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -115,9 +111,8 @@
 </head>
 <body>
   <!-- Install Button -->
-  <button class="install-btn" id="installBtn">
-    <span>📥</span>
-    <span>Install</span>
+  <button class="install-btn" id="installBtn" style="display:none;">
+    <span>📥</span><span>Install</span>
   </button>
 
   <!-- Ambient chooser -->
@@ -137,7 +132,6 @@
     </header>
 
     <section class="features">
-      <!-- (feature cards unchanged) -->
       <!-- Card 1 -->
       <div class="feature" data-sound="sounds/528hz.mp3" data-emotion="anger" tabindex="0">
         <div class="fx-head"><div class="fx-emoji">😠</div><div><h3>Calm Anger</h3><p>528Hz tones dissolve tension and help you let go of stress.</p></div></div>
@@ -352,10 +346,37 @@
       el.appendChild(ripple);
       ripple.addEventListener('animationend',()=>ripple.remove());
     }
-  </script>
 
-  <!-- Install logic -->
-  <script src="./install.js"></script>
+    // --- PWA: SW + Install button ---
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+          .catch(err => console.error('SW registration failed:', err));
+      });
+    }
+
+    let deferredPrompt;
+    const installBtn = document.querySelector('#installBtn') || document.querySelector('button.install');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBtn) installBtn.style.display = 'inline-block';
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+      });
+    }
+
+    window.addEventListener('appinstalled', () => {
+      if (installBtn) installBtn.style.display = 'none';
+    });
+  </script>
 </body>
 </html>
-
