@@ -296,9 +296,15 @@
         <p>SleepAura © 2025 • Created to help you find peace before sleep</p>
     </footer>
 
-    <!-- PWA: SW registration + Install prompt -->
+       <!-- PWA: SW registration + Install prompt -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js"></script>
+
+    <!-- Your auth module (loads after the SDK) -->
+    <script type="module" src="/scripts/auth.js"></script>
+
     <script>
-    // Register SW (root scope)
+    // Register SW (root scope)  <- your existing SW and install prompt logic
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
@@ -330,5 +336,7 @@
       if (installBtn) installBtn.style.display = 'none';
     });
     </script>
+
 </body>
 </html>
+
