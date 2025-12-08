@@ -378,5 +378,89 @@
       if (installBtn) installBtn.style.display = 'none';
     });
   </script>
+ <!-- Add this to player.html: end of <body>, after player markup -->
+<script type="module">
+  import { requireAuthRedirect, authSignOut } from '/scripts/auth.js';
+  import { auth } from '/scripts/firebase.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+
+  // 1) Protect the page (redirect to login if not authed)
+  requireAuthRedirect('/login.html');
+
+  // 2) Wait for initial auth state before initializing player
+  //    This prevents the player from autoplaying or loading protected data
+  const currentUser = await new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user); // user === null if not signed in
+    });
+  });
+
+  // If somehow not authed (extra safety), redirect
+  if (!currentUser) {
+    window.location.href = '/login.html';
+    throw new Error('Redirecting to login');
+  }
+
+  // 3) Initialize UI that depends on the signed-in user
+  initPlayerForUser(currentUser);
+
+  function initPlayerForUser(user) {
+    // show a small user badge in top-left
+    let badge = document.getElementById('user-badge');
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.id = 'user-badge';
+      badge.style.cssText = `
+        position: fixed;
+        left: 1rem;
+        top: 1rem;
+        padding: .5rem .75rem;
+        border-radius: .5rem;
+        font-size: .95rem;
+        background: rgba(0,0,0,0.25);
+        color: white;
+        z-index: 60;
+        backdrop-filter: blur(6px);
+      `;
+      document.body.appendChild(badge);
+    }
+    badge.textContent = user.email ?? 'Signed in';
+
+    // Hook a logout button if present in your player UI:
+    // Add <button id="logoutBtn">Logout</button> anywhere in the player HTML to use it.
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        try {
+          await authSignOut();
+          window.location.href = '/login.html';
+        } catch (err) {
+          alert('Logout failed: ' + err.message);
+        }
+      });
+    }
+
+    // OPTIONAL: If your audio element has autoplay or would start before auth,
+    // make sure it's paused initially and then call play when ready:
+    const audio = document.querySelector('audio'); // or use your player's element selector
+    if (audio) {
+      // ensure we don't auto-play sensitive streams before auth check
+      try {
+        // only try to play if it's user-initiated; otherwise leave it paused
+        // audio.play().catch(()=>{/* ignore autoplay block */});
+      } catch (e) { /* ignore */ }
+    }
+
+    // Any other player initialization that relies on user info goes here:
+    // - Load user's saved mixes / preferences
+    // - Unlock premium tracks, etc.
+    // Call your existing player init function if you have one:
+    if (typeof window.initPlayer === 'function') {
+      window.initPlayer(user);
+    }
+  }
+</script>
 </body>
 </html>
+
