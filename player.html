@@ -461,6 +461,39 @@
     }
   }
 </script>
+  <script>
+// Basic player - no auth required, but show login option
+const loginPrompt = document.createElement('div');
+loginPrompt.style.cssText = `
+position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
+background: linear-gradient(145deg, #1e293b, #334155);
+border: 1px solid rgba(250, 204, 21, 0.3);
+border-radius: 1rem; padding: 1rem 1.5rem;
+box-shadow: 0 10px 30px rgba(0,0,0,.45);
+color: white; font-size: .9rem;
+`;
+loginPrompt.innerHTML = `
+<div style="margin-bottom: .5rem; font-weight: 600;">🌟 Want more?</div>
+<div style="margin-bottom: 1rem; color: #cbd5e1;">Get 12 frequencies + analytics</div>
+<a href="login.html" style="
+display: inline-block; padding: .5rem 1rem;
+background: linear-gradient(145deg, #facc15, #10b981);
+color: #0f172a; text-decoration: none;
+border-radius: .5rem; font-weight: 600;
+font-size: .85rem;
+">Sign Up Free</a>
+`;
+document.body.appendChild(loginPrompt);
+
+// Hide after 10 seconds
+setTimeout(() => {
+loginPrompt.style.opacity = '0';
+loginPrompt.style.transition = 'opacity 1s';
+setTimeout(() => loginPrompt.remove(), 1000);
+}, 10000);
+</script>
+
 </body>
 </html>
+
 
