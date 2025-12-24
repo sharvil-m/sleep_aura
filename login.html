@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - SleepAura 🌙</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#7c3aed">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--bg1: 240 45% 9%; --bg2: 221 39% 11%;
+--card1: 221 39% 11%; --card2: 215 20% 22%;
+--text: 210 40% 96%; --muted: 215 16% 63%;
+--primary: 48 96% 54%; --accent: 48 96% 54%;
+}
+body {
+font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+background: radial-gradient(1200px 800px at 20% -10%, hsl(48 96% 54% / 0.06), transparent 50%),
+radial-gradient(1000px 800px at 110% 10%, hsl(48 96% 54% / 0.08), transparent 50%),
+linear-gradient(135deg, hsl(var(--bg1)) 0%, hsl(var(--bg2)) 50%, hsl(var(--bg1)) 100%);
+background-attachment: fixed;
+color: hsl(var(--text));
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 1.5rem;
+}
+.auth-container {
+max-width: 420px;
+width: 100%;
+background: linear-gradient(145deg, hsl(var(--card1)), hsl(var(--card2)));
+border: 1px solid hsl(215 16% 63% / .12);
+border-radius: 1.5rem;
+padding: 2.5rem;
+box-shadow: 0 10px 40px rgba(0,0,0,.5);
+}
+.logo {
+text-align: center;
+margin-bottom: 2rem;
+}
+.logo h1 {
+font-size: 2.5rem;
+color: hsl(var(--primary));
+text-shadow: 0 0 20px hsl(48 96% 54% / .5);
+margin-bottom: .5rem;
+}
+.logo p {
+color: hsl(var(--muted));
+font-size: 1rem;
+}
+.tabs {
+display: flex;
+gap: 1rem;
+margin-bottom: 2rem;
+border-bottom: 2px solid hsl(215 16% 63% / .12);
+}
+.tab {
+flex: 1;
+padding: .75rem;
+background: none;
+border: none;
+color: hsl(var(--muted));
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+border-bottom: 3px solid transparent;
+transition: all .3s;
+}
+.tab.active {
+color: hsl(var(--primary));
+border-bottom-color: hsl(var(--primary));
+}
+.form-group {
+margin-bottom: 1.5rem;
+}
+.form-group label {
+display: block;
+margin-bottom: .5rem;
+color: hsl(var(--text));
+font-weight: 600;
+font-size: .9rem;
+}
+.form-group input {
+width: 100%;
+padding: .875rem 1rem;
+background: hsl(var(--bg1));
+border: 1px solid hsl(215 16% 63% / .2);
+border-radius: .5rem;
+color: hsl(var(--text));
+font-size: 1rem;
+transition: border-color .3s;
+}
+.form-group input:focus {
+outline: none;
+border-color: hsl(var(--primary));
+box-shadow: 0 0 0 3px hsl(48 96% 54% / .1);
+}
+.btn {
+width: 100%;
+padding: 1rem;
+border: none;
+border-radius: .5rem;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all .3s;
+}
+.btn-primary {
+background: linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)));
+color: hsl(var(--bg1));
+margin-bottom: 1rem;
+}
+.btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 30px hsl(48 96% 54% / .4);
+}
+.btn-google {
+background: white;
+color: #333;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: .75rem;
+}
+.btn-google:hover {
+background: #f5f5f5;
+}
+.divider {
+text-align: center;
+margin: 1.5rem 0;
+color: hsl(var(--muted));
+position: relative;
+}
+.divider::before,
+.divider::after {
+content: '';
+position: absolute;
+top: 50%;
+width: 40%;
+height: 1px;
+background: hsl(215 16% 63% / .2);
+}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+.forgot-link {
+text-align: center;
+margin-top: 1rem;
+}
+.forgot-link a {
+color: hsl(var(--primary));
+text-decoration: none;
+font-size: .9rem;
+}
+.forgot-link a:hover {
+text-decoration: underline;
+}
+.error-msg {
+background: rgba(239, 68, 68, .1);
+border: 1px solid rgba(239, 68, 68, .3);
+color: #ef4444;
+padding: .75rem;
+border-radius: .5rem;
+margin-bottom: 1rem;
+font-size: .9rem;
+display: none;
+}
+.success-msg {
+background: rgba(16, 185, 129, .1);
+border: 1px solid rgba(16, 185, 129, .3);
+color: #10b981;
+padding: .75rem;
+border-radius: .5rem;
+margin-bottom: 1rem;
+font-size: .9rem;
+display: none;
+}
+.back-home {
+text-align: center;
+margin-top: 1.5rem;
+}
+.back-home a {
+color: hsl(var(--muted));
+text-decoration: none;
+font-size: .9rem;
+}
+.back-home a:hover {
+color: hsl(var(--primary));
+}
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="auth-container">
+<div class="logo">
+<h1>🌙 SleepAura</h1>
+<p>Your personal sleep companion</p>
+</div>
+
+<div class="error-msg" id="errorMsg"></div>
+<div class="success-msg" id="successMsg"></div>
+
+<div class="tabs">
+<button class="tab active" data-tab="login">Login</button>
+<button class="tab" data-tab="signup">Sign Up</button>
+</div>
+
+<!-- Login Form -->
+<form id="loginForm">
+<div class="form-group">
+<label for="loginEmail">Email</label>
+<input type="email" id="loginEmail" required>
+</div>
+<div class="form-group">
+<label for="loginPassword">Password</label>
+<input type="password" id="loginPassword" required>
+</div>
+<button type="submit" class="btn btn-primary">Login</button>
+<div class="divider">or</div>
+<button type="button" class="btn btn-google" id="googleLoginBtn">
+<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+Continue with Google
+</button>
+<div class="forgot-link">
+<a href="#" id="forgotPasswordLink">Forgot password?</a>
+</div>
+</form>
+
+<!-- Signup Form -->
+<form id="signupForm" class="hidden">
+<div class="form-group">
+<label for="signupEmail">Email</label>
+<input type="email" id="signupEmail" required>
+</div>
+<div class="form-group">
+<label for="signupPassword">Password</label>
+<input type="password" id="signupPassword" required minlength="6">
+</div>
+<div class="form-group">
+<label for="signupPasswordConfirm">Confirm Password</label>
+<input type="password" id="signupPasswordConfirm" required minlength="6">
+</div>
+<button type="submit" class="btn btn-primary">Create Account</button>
+<div class="divider">or</div>
+<button type="button" class="btn btn-google" id="googleSignupBtn">
+<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+Sign up with Google
+</button>
+</form>
+
+<!-- Forgot Password Form -->
+<form id="forgotPasswordForm" class="hidden">
+<div class="form-group">
+<label for="resetEmail">Enter your email</label>
+<input type="email" id="resetEmail" required>
+</div>
+<button type="submit" class="btn btn-primary">Send Reset Link</button>
+<div class="forgot-link">
+<a href="#" id="backToLoginLink">Back to login</a>
+</div>
+</form>
+
+<div class="back-home">
+<a href="index.html">← Back to home</a>
+</div>
+</div>
+
+<script type="module" src="auth.js"></script>
+</body>
+</html>
