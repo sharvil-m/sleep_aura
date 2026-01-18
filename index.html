@@ -1,667 +1,724 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#facc15">
-    <title>SleepAura 🌙 - Transform Your Sleep with Healing Frequencies</title>
-    <meta name="description" content="Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling. Choose your emotion, set your timer, and drift into deep rest." />
-    <meta name="author" content="SleepAura" />
-    <meta name="keywords" content="sleep, healing frequencies, meditation, relaxation, stress relief, better sleep, 528hz, theta waves, sleep aid" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#facc15">
+<title>SleepAura 🌙 - Transform Your Sleep with Healing Frequencies</title>
+<meta name="description" content="Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling. Choose your emotion, set your timer, and drift into deep rest." />
+<meta name="author" content="SleepAura" />
+<meta name="keywords" content="sleep, healing frequencies, meditation, relaxation, stress relief, better sleep, 528hz, theta waves, sleep aid" />
 <!-- PWA basics -->
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#0f172a">
-
 <!-- iOS (no beforeinstallprompt on Safari/iOS) -->
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:title" content="SleepAura 🌙 - Transform Your Sleep with Healing Frequencies" />
+<meta property="og:description" content="Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling." />
+<meta property="og:type" content="website" />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
-    
-    <meta property="og:title" content="SleepAura 🌙 - Transform Your Sleep with Healing Frequencies" />
-    <meta property="og:description" content="Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling." />
-    <meta property="og:type" content="website" />
-    
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+:root {
+--bg1: 240 45% 9%;
+--bg2: 221 39% 11%;
+--card1: 221 39% 11%;
+--card2: 215 20% 22%;
+--text: 210 40% 96%;
+--muted: 215 16% 63%;
+--muted-2: 214 32% 83%;
+--primary: 48 96% 54%;
+--accent: 48 96% 54%;
+}
 
-        :root {
-            --bg1: 240 45% 9%;
-            --bg2: 221 39% 11%;
-            --card1: 221 39% 11%;
-            --card2: 215 20% 22%;
-            --text: 210 40% 96%;
-            --muted: 215 16% 63%;
-            --muted-2: 214 32% 83%;
-            --primary: 48 96% 54%;
-            --accent: 48 96% 54%;
-        }
+body {
+font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+background: radial-gradient(1200px 800px at 20% -10%, hsl(48 96% 54% / 0.06), transparent 50%),
+radial-gradient(1000px 800px at 110% 10%, hsl(48 96% 54% / 0.08), transparent 50%),
+linear-gradient(135deg, hsl(var(--bg1)) 0%, hsl(var(--bg2)) 50%, hsl(var(--bg1)) 100%);
+background-attachment: fixed;
+color: hsl(var(--text));
+line-height: 1.6;
+overflow-x: hidden;
+animation: bgShift 18s ease-in-out infinite alternate;
+min-height: 100vh;
+}
 
-        body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: radial-gradient(1200px 800px at 20% -10%, hsl(48 96% 54% / 0.06), transparent 50%),
-                        radial-gradient(1000px 800px at 110% 10%, hsl(48 96% 54% / 0.08), transparent 50%),
-                        linear-gradient(135deg, hsl(var(--bg1)) 0%, hsl(var(--bg2)) 50%, hsl(var(--bg1)) 100%);
-            background-attachment: fixed;
-            color: hsl(var(--text));
-            line-height: 1.6;
-            overflow-x: hidden;
-            animation: bgShift 18s ease-in-out infinite alternate;
-            min-height: 100vh;
-        }
+@keyframes bgShift {
+0% { background-position: 0 0, 0 0, 0 0; }
+100% { background-position: 30px -30px, -40px 20px, 0 0; }
+}
 
-        @keyframes bgShift {
-            0% { background-position: 0 0, 0 0, 0 0; }
-            100% { background-position: 30px -30px, -40px 20px, 0 0; }
-        }
+@keyframes colorShiftGlow {
+0%, 100% { 
+color: #fff;
+text-shadow: 0 0 22px hsl(48 96% 54% / 0.5),
+0 0 44px hsl(48 96% 54% / 0.3),
+0 0 66px hsl(48 96% 54% / 0.2);
+}
+50% { 
+color: hsl(48 96% 54%);
+text-shadow: 0 0 30px hsl(48 96% 54% / 0.7),
+0 0 60px hsl(48 96% 54% / 0.5),
+0 0 90px hsl(48 96% 54% / 0.4);
+}
+}
 
-        @keyframes colorShiftGlow {
-            0%, 100% { 
-                color: #fff;
-                text-shadow: 0 0 22px hsl(48 96% 54% / 0.5),
-                             0 0 44px hsl(48 96% 54% / 0.3),
-                             0 0 66px hsl(48 96% 54% / 0.2);
-            }
-            50% { 
-                color: hsl(48 96% 54%);
-                text-shadow: 0 0 30px hsl(48 96% 54% / 0.7),
-                             0 0 60px hsl(48 96% 54% / 0.5),
-                             0 0 90px hsl(48 96% 54% / 0.4);
-            }
-        }
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+@keyframes pulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.5; }
+}
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
+.animate-fade-in {
+animation: fadeIn 0.8s ease-out;
+}
 
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out;
-        }
+/* PWA Install Button - Fixed */
+.install-btn {
+position: fixed;
+top: 1.5rem;
+right: 1.5rem;
+z-index: 1000;
+display: none; /* Hidden by default, shown by JavaScript */
+align-items: center;
+gap: 0.5rem;
+padding: 0.75rem 1.25rem;
+border-radius: 0.75rem;
+font-weight: 600;
+font-size: 0.9rem;
+transition: all 0.3s ease;
+background: linear-gradient(145deg, hsl(var(--card1)), hsl(var(--card2)));
+color: hsl(var(--text));
+border: 1px solid hsl(48 96% 54% / 0.3);
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+cursor: pointer;
+backdrop-filter: blur(8px);
+}
 
-        /* Install Button */
-        .install-btn {
-            position: fixed;
-            top: 1.5rem;
-            right: 1.5rem;
-            z-index: 50;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: linear-gradient(145deg, hsl(var(--card1)), hsl(var(--card2)));
-            color: #fff;
-            border: 1px solid hsl(48 96% 54% / 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-            cursor: pointer;
-            animation: colorShiftGlow 4s ease-in-out infinite;
-        }
+.install-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+border-color: hsl(48 96% 54% / 0.5);
+}
 
-        .install-btn:hover {
-            transform: scale(1.05);
-        }
+.install-btn.show {
+display: inline-flex;
+}
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5rem 1.5rem;
-            text-align: center;
-        }
+.install-icon {
+font-size: 1.1rem;
+}
 
-        .hero-content {
-            max-width: 72rem;
-            margin: 0 auto;
-        }
+/* Hero Section */
+.hero {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 5rem 1.5rem;
+text-align: center;
+}
 
-        .hero h1 {
-            font-size: 6rem;
-            font-weight: bold;
-            margin-bottom: 2rem;
-            animation: colorShiftGlow 4s ease-in-out infinite;
-        }
+.hero-content {
+max-width: 72rem;
+margin: 0 auto;
+}
 
-        .hero-subtitle {
-            font-size: 3rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            color: hsl(var(--muted-2));
-            text-shadow: 0 0 18px hsl(48 96% 54% / 0.3), 0 0 36px hsl(48 96% 54% / 0.2);
-            animation: colorShiftGlow 5s ease-in-out infinite;
-        }
+.hero h1 {
+font-size: 6rem;
+font-weight: bold;
+margin-bottom: 2rem;
+animation: colorShiftGlow 4s ease-in-out infinite;
+}
 
-        .hero-description {
-            font-size: 1.25rem;
-            max-width: 48rem;
-            margin: 0 auto 3rem;
-            color: hsl(var(--muted));
-        }
+.hero-subtitle {
+font-size: 3rem;
+font-weight: 300;
+margin-bottom: 1rem;
+color: hsl(var(--muted-2));
+text-shadow: 0 0 18px hsl(48 96% 54% / 0.3), 0 0 36px hsl(48 96% 54% / 0.2);
+animation: colorShiftGlow 5s ease-in-out infinite;
+}
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1.5rem 3rem;
-            border-radius: 9999px;
-            margin-bottom: 2rem;
-            background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.15), hsl(48 96% 54% / 0.08));
-            border: 1px solid hsl(215 16% 63% / 0.12);
-            backdrop-filter: blur(8px);
-        }
+.hero-description {
+font-size: 1.25rem;
+max-width: 48rem;
+margin: 0 auto 3rem;
+color: hsl(var(--muted));
+}
 
-        .badge-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: hsl(var(--primary));
-            text-shadow: 0 0 15px hsl(48 96% 54% / 0.5);
-        }
+.badge {
+display: inline-flex;
+align-items: center;
+gap: 0.75rem;
+padding: 1.5rem 3rem;
+border-radius: 9999px;
+margin-bottom: 2rem;
+background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.15), hsl(48 96% 54% / 0.08));
+border: 1px solid hsl(215 16% 63% / 0.12);
+backdrop-filter: blur(8px);
+}
 
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 220px;
-            gap: 0.75rem;
-            padding: 1.5rem 2rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            background: linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)));
-            color: hsl(var(--bg1));
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
+.badge-text {
+font-size: 1.5rem;
+font-weight: 600;
+color: hsl(var(--primary));
+text-shadow: 0 0 15px hsl(48 96% 54% / 0.5);
+}
 
-        .btn-primary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 60px -10px hsl(48 96% 54% / 0.7);
-        }
+.btn-primary {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+min-width: 220px;
+gap: 0.75rem;
+padding: 1.5rem 2rem;
+font-size: 1.125rem;
+font-weight: 600;
+background: linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)));
+color: hsl(var(--bg1));
+border: none;
+border-radius: 0.5rem;
+cursor: pointer;
+transition: all 0.3s ease;
+text-decoration: none;
+}
 
-        .coming-soon-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.15), hsl(48 96% 54% / 0.08));
-            border: 1px solid hsl(48 96% 54% / 0.3);
-            backdrop-filter: blur(8px);
-            margin-top: 2rem;
-            box-shadow: 0 0 20px hsl(48 96% 54% / 0.3);
-        }
+.btn-primary:hover {
+transform: translateY(-4px);
+box-shadow: 0 20px 60px -10px hsl(48 96% 54% / 0.7);
+}
 
-        .coming-soon-badge span:first-child,
-        .coming-soon-badge span:last-child {
-            animation: pulse 2s ease-in-out infinite;
-        }
+.coming-soon-badge {
+display: inline-flex;
+align-items: center;
+gap: 0.75rem;
+padding: 1rem 2rem;
+border-radius: 9999px;
+background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.15), hsl(48 96% 54% / 0.08));
+border: 1px solid hsl(48 96% 54% / 0.3);
+backdrop-filter: blur(8px);
+margin-top: 2rem;
+box-shadow: 0 0 20px hsl(48 96% 54% / 0.3);
+}
 
-        .gradient-text {
-            color: hsl(var(--primary));
-            text-shadow: 0 0 15px hsl(48 96% 54% / 0.5);
-            font-weight: 600;
-        }
+.coming-soon-badge span:first-child,
+.coming-soon-badge span:last-child {
+animation: pulse 2s ease-in-out infinite;
+}
 
-        /* Section Styles */
-        section {
-            padding: 6rem 1.5rem;
-        }
+.gradient-text {
+color: hsl(var(--primary));
+text-shadow: 0 0 15px hsl(48 96% 54% / 0.5);
+font-weight: 600;
+}
 
-        .container {
-            max-width: 72rem;
-            margin: 0 auto;
-        }
+/* Section Styles */
+section {
+padding: 6rem 1.5rem;
+}
 
-        .section-title {
-            font-size: 3rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            animation: colorShiftGlow 4s ease-in-out infinite;
-        }
+.container {
+max-width: 72rem;
+margin: 0 auto;
+}
 
-        .section-description {
-            font-size: 1.25rem;
-            text-align: center;
-            max-width: 48rem;
-            margin: 0 auto 4rem;
-            color: hsl(var(--muted-2));
-        }
+.section-title {
+font-size: 3rem;
+font-weight: bold;
+text-align: center;
+margin-bottom: 1.5rem;
+animation: colorShiftGlow 4s ease-in-out infinite;
+}
 
-        /* Card Grid */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-        }
+.section-description {
+font-size: 1.25rem;
+text-align: center;
+max-width: 48rem;
+margin: 0 auto 4rem;
+color: hsl(var(--muted-2));
+}
 
-        .card {
-            padding: 2rem;
-            background: linear-gradient(145deg, hsl(var(--card1)), hsl(var(--card2)));
-            border: 1px solid hsl(215 16% 63% / 0.12);
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-            transition: transform 0.5s ease, box-shadow 0.25s ease;
-        }
+/* Card Grid */
+.card-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin-top: 4rem;
+}
 
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
+.card {
+padding: 2rem;
+background: linear-gradient(145deg, hsl(var(--card1)), hsl(var(--card2)));
+border: 1px solid hsl(215 16% 63% / 0.12);
+border-radius: 1rem;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+transition: transform 0.5s ease, box-shadow 0.25s ease;
+}
 
-        .card-icon {
-            width: 4rem;
-            height: 4rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.15), hsl(48 96% 54% / 0.08));
-            border: 1px solid hsl(215 16% 63% / 0.12);
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
-        }
+.card:hover {
+transform: translateY(-6px);
+box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
 
-        .card h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: hsl(var(--primary));
-            text-shadow: 0 0 15px hsl(48 96% 54% / 0.4);
-        }
+.card-icon {
+width: 4rem;
+height: 4rem;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 2rem;
+margin-bottom: 1.5rem;
+background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.15), hsl(48 96% 54% / 0.08));
+border: 1px solid hsl(215 16% 63% / 0.12);
+box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
+}
 
-        .card p {
-            color: hsl(var(--muted-2));
-            line-height: 1.6;
-        }
+.card h3 {
+font-size: 1.5rem;
+font-weight: bold;
+margin-bottom: 1rem;
+color: hsl(var(--primary));
+text-shadow: 0 0 15px hsl(48 96% 54% / 0.4);
+}
 
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-            margin-top: 4rem;
-        }
+.card p {
+color: hsl(var(--muted-2));
+line-height: 1.6;
+}
 
-        .feature-card {
-            padding: 2rem;
-            background: linear-gradient(145deg, hsl(var(--card1)), hsl(var(--card2)));
-            border: 1px solid hsl(215 16% 63% / 0.12);
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-            text-align: center;
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
+/* Features Grid */
+.features-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 2.5rem;
+margin-top: 4rem;
+}
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.08), hsl(48 96% 54% / 0.05));
-            transition: opacity 0.3s ease;
-        }
+.feature-card {
+padding: 2rem;
+background: linear-gradient(145deg, hsl(var(--card1)), hsl(var(--card2)));
+border: 1px solid hsl(215 16% 63% / 0.12);
+border-radius: 1rem;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+text-align: center;
+transition: all 0.25s ease;
+position: relative;
+overflow: hidden;
+}
 
-        .feature-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            border-color: hsl(48 96% 54% / 0.18);
-        }
+.feature-card::before {
+content: '';
+position: absolute;
+inset: 0;
+opacity: 0;
+background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.08), hsl(48 96% 54% / 0.05));
+transition: opacity 0.3s ease;
+}
 
-        .feature-card:hover::before {
-            opacity: 1;
-        }
+.feature-card:hover {
+transform: translateY(-6px);
+box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+border-color: hsl(48 96% 54% / 0.18);
+}
 
-        .feature-icon {
-            width: 4rem;
-            height: 4rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
-            background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.15), hsl(48 96% 54% / 0.08));
-            border: 1px solid hsl(215 16% 63% / 0.12);
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
-            position: relative;
-            z-index: 10;
-        }
+.feature-card:hover::before {
+opacity: 1;
+}
 
-        .feature-card h3 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 10;
-            color: hsl(var(--text));
-            text-shadow: 0 0 12px hsl(48 96% 54% / 0.3);
-        }
+.feature-icon {
+width: 4rem;
+height: 4rem;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 2rem;
+margin: 0 auto 1.5rem;
+background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.15), hsl(48 96% 54% / 0.08));
+border: 1px solid hsl(215 16% 63% / 0.12);
+box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
+position: relative;
+z-index: 10;
+}
 
-        .feature-freq {
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: hsl(var(--accent));
-            margin: 0.5rem 0;
-            position: relative;
-            z-index: 10;
-            text-shadow: 0 0 10px hsl(48 96% 54% / 0.5);
-        }
+.feature-card h3 {
+font-size: 1.25rem;
+font-weight: bold;
+margin-bottom: 0.5rem;
+position: relative;
+z-index: 10;
+color: hsl(var(--text));
+text-shadow: 0 0 12px hsl(48 96% 54% / 0.3);
+}
 
-        .feature-card p {
-            font-size: 0.875rem;
-            color: hsl(var(--muted-2));
-            position: relative;
-            z-index: 10;
-        }
+.feature-freq {
+font-size: 0.875rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+color: hsl(var(--accent));
+margin: 0.5rem 0;
+position: relative;
+z-index: 10;
+text-shadow: 0 0 10px hsl(48 96% 54% / 0.5);
+}
 
-        /* Steps Grid */
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
-        }
+.feature-card p {
+font-size: 0.875rem;
+color: hsl(var(--muted-2));
+position: relative;
+z-index: 10;
+}
 
-        .step {
-            text-align: center;
-        }
+/* Steps Grid */
+.steps-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 3rem;
+margin-top: 4rem;
+}
 
-        .step-number {
-            width: 5rem;
-            height: 5rem;
-            margin: 0 auto 1.5rem;
-            border-radius: 50%;
-            background: linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            color: hsl(var(--bg1));
-            box-shadow: 0 4px 20px hsl(48 96% 54% / 0.4);
-        }
+.step {
+text-align: center;
+}
 
-        .step h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: hsl(var(--primary));
-            text-shadow: 0 0 15px hsl(48 96% 54% / 0.4);
-        }
+.step-number {
+width: 5rem;
+height: 5rem;
+margin: 0 auto 1.5rem;
+border-radius: 50%;
+background: linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)));
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 2rem;
+font-weight: bold;
+color: hsl(var(--bg1));
+box-shadow: 0 4px 20px hsl(48 96% 54% / 0.4);
+}
 
-        .step p {
-            color: hsl(var(--muted));
-        }
+.step h3 {
+font-size: 1.5rem;
+font-weight: bold;
+margin-bottom: 1rem;
+color: hsl(var(--primary));
+text-shadow: 0 0 15px hsl(48 96% 54% / 0.4);
+}
 
-        /* CTA Section */
-        .cta-section {
-            padding: 8rem 1.5rem;
-            text-align: center;
-        }
+.step p {
+color: hsl(var(--muted));
+}
 
-        .cta-title {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin-bottom: 2rem;
-            animation: colorShiftGlow 4s ease-in-out infinite;
-        }
+/* CTA Section */
+.cta-section {
+padding: 8rem 1.5rem;
+text-align: center;
+}
 
-        .cta-description {
-            font-size: 1.25rem;
-            color: hsl(var(--muted));
-            max-width: 40rem;
-            margin: 0 auto 2rem;
-        }
+.cta-title {
+font-size: 3.5rem;
+font-weight: bold;
+margin-bottom: 2rem;
+animation: colorShiftGlow 4s ease-in-out infinite;
+}
 
-        .btn-cta {
-            min-width: 240px;
-            padding: 2rem 3rem;
-            font-size: 1.25rem;
-        }
+.cta-description {
+font-size: 1.25rem;
+color: hsl(var(--muted));
+max-width: 40rem;
+margin: 0 auto 2rem;
+}
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem 1.5rem;
-            color: hsl(var(--muted));
-            border-top: 1px solid hsl(215 16% 63% / 0.2);
-        }
+.btn-cta {
+min-width: 240px;
+padding: 2rem 3rem;
+font-size: 1.25rem;
+}
 
-        /* Dark gradient section */
-        .dark-section {
-            background: linear-gradient(145deg, hsl(240 10% 6%), hsl(240 10% 4%));
-        }
+/* Footer */
+footer {
+text-align: center;
+padding: 2rem 1.5rem;
+color: hsl(var(--muted));
+border-top: 1px solid hsl(215 16% 63% / 0.2);
+}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
+/* Dark gradient section */
+.dark-section {
+background: linear-gradient(145deg, hsl(240 10% 6%), hsl(240 10% 4%));
+}
 
-            .hero-subtitle {
-                font-size: 1.5rem;
-            }
+/* Responsive */
+@media (max-width: 768px) {
+.hero h1 {
+font-size: 2.5rem;
+}
 
-            .hero-description {
-                font-size: 1.125rem;
-            }
+.hero-subtitle {
+font-size: 1.5rem;
+}
 
-            .section-title {
-                font-size: 2rem;
-            }
+.hero-description {
+font-size: 1.125rem;
+}
 
-            .cta-title {
-                font-size: 2rem;
-            }
+.section-title {
+font-size: 2rem;
+}
 
-            .card-grid,
-            .features-grid,
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+.cta-title {
+font-size: 2rem;
+}
+
+.card-grid,
+.features-grid,
+.steps-grid {
+grid-template-columns: 1fr;
+}
+
+.install-btn {
+top: 1rem;
+right: 1rem;
+padding: 0.6rem 1rem;
+font-size: 0.8rem;
+}
+}
+</style>
 </head>
 <body>
-    <!-- Install Button -->
-    <button class="install-btn" id="installBtn">
-        <span>📥</span>
-        <span>Install</span>
-    </button>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="animate-fade-in">
-                <h1>SleepAura 🌙</h1>
-                <p class="hero-subtitle">Find Your Calm. Transform Your Sleep.</p>
-                <p class="hero-description">
-                    Experience the power of healing frequencies designed to guide you into peaceful sleep, 
-                    no matter what emotions you're feeling.
-                </p>
-            </div>
+<!-- PWA Install Button -->
+<button class="install-btn" id="installBtn">
+<span class="install-icon">🌙</span>
+<span>Install</span>
+</button>
 
-            <div class="animate-fade-in" style="animation-delay: 0.2s;">
-                <div class="badge">
-                    <span class="badge-text">✨ Early View</span>
-                </div>
-            </div>
+<!-- Hero Section -->
+<section class="hero">
+<div class="hero-content">
+<div class="animate-fade-in">
+<h1>SleepAura 🌙</h1>
+<p class="hero-subtitle">Find Your Calm. Transform Your Sleep.</p>
+<p class="hero-description">Experience the power of healing frequencies designed to guide you into peaceful sleep, no matter what emotions you're feeling.</p>
+</div>
+<div class="animate-fade-in" style="animation-delay: 0.2s;">
+<div class="badge">
+<span class="badge-text">✨ Early View</span>
+</div>
+</div>
+<div class="animate-fade-in" style="animation-delay: 0.3s;">
+<a href="player-standalone.html" class="btn-primary">
+<span>▶</span>
+<span>Try Now</span>
+</a>
+</div>
+<div class="animate-fade-in" style="animation-delay: 0.6s;">
+<div class="coming-soon-badge">
+<span>✨</span>
+<span class="gradient-text">Better versions coming soon</span>
+<span>✨</span>
+</div>
+</div>
+</div>
+</section>
 
-            <div class="animate-fade-in" style="animation-delay: 0.3s;">
-                <a href="player-standalone.html" class="btn-primary">
-                    <span>▶</span>
-                    <span>Try Now</span>
-                </a>
-            </div>
+<!-- What is SleepAura Section -->
+<section>
+<div class="container">
+<div class="animate-fade-in">
+<h2 class="section-title">What is SleepAura?</h2>
+<p class="section-description">SleepAura is your personal sleep companion that uses scientifically-backed healing frequencies to help you overcome any emotional state and achieve deep, restorative sleep.</p>
+</div>
+<div class="card-grid">
+<div class="card">
+<div class="card-icon">🎵</div>
+<h3>Healing Frequencies</h3>
+<p>Scientifically-designed sound frequencies (528Hz, 741Hz, Theta waves) that naturally align your brain with sleep patterns</p>
+</div>
+<div class="card">
+<div class="card-icon">❤️</div>
+<h3>Emotion-Based</h3>
+<p>Choose from stress, anger, sadness, excitement, or overthinking - each emotion gets its own specially tuned frequency</p>
+</div>
+<div class="card">
+<div class="card-icon">🌊</div>
+<h3>Ambient Sounds</h3>
+<p>Layer calming ambient sounds like rain, ocean waves, or crackling fire to enhance your sleep experience</p>
+</div>
+</div>
+</div>
+</section>
 
-            <div class="animate-fade-in" style="animation-delay: 0.6s;">
-                <div class="coming-soon-badge">
-                    <span>✨</span>
-                    <span class="gradient-text">Better versions coming soon</span>
-                    <span>✨</span>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- How It Works Section -->
+<section class="dark-section">
+<div class="container">
+<h2 class="section-title">How It Works</h2>
+<p class="section-description">Three simple steps to transform your sleep experience</p>
+<div class="steps-grid">
+<div class="step">
+<div class="step-number">1</div>
+<h3>Choose Your Emotion</h3>
+<p>Select the emotion you're feeling - from stress to excitement, anger to overthinking</p>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<h3>Set Your Timer</h3>
+<p>Pick a duration from 5 minutes to 1 hour, and add optional ambient sounds</p>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<h3>Drift Into Sleep</h3>
+<p>Let the healing frequencies guide you into deep, peaceful, restorative rest</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- What is SleepAura Section -->
-    <section>
-        <div class="container">
-            <div class="animate-fade-in">
-                <h2 class="section-title">What is SleepAura?</h2>
-                <p class="section-description">
-                    SleepAura is your personal sleep companion that uses scientifically-backed healing frequencies 
-                    to help you overcome any emotional state and achieve deep, restorative sleep.
-                </p>
-            </div>
+<!-- Healing Frequencies Section -->
+<section>
+<div class="container">
+<h2 class="section-title">Healing Frequencies</h2>
+<p class="section-description">Each emotion is matched with a specific healing frequency designed to restore balance</p>
+<div class="features-grid">
+<div class="feature-card">
+<div class="feature-icon">😠</div>
+<div class="feature-freq">528Hz</div>
+<h3>Calm Anger</h3>
+<p>Dissolve tension and let go of stress</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">😢</div>
+<div class="feature-freq">396Hz</div>
+<h3>Lift Sadness</h3>
+<p>Soothe emotional heaviness and promote peace</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">😊</div>
+<div class="feature-freq">432Hz</div>
+<h3>Balance Energy</h3>
+<p>Find harmony when excited but can't rest</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🥱</div>
+<div class="feature-freq">Theta</div>
+<h3>Deep Sleep</h3>
+<p>Ease into restful, natural sleep cycles</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">😩</div>
+<div class="feature-freq">852Hz</div>
+<h3>Stress Relief</h3>
+<p>Release mental pressure and clear thoughts</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🤯</div>
+<div class="feature-freq">741Hz</div>
+<h3>Ease Overthinking</h3>
+<p>Reduce racing thoughts and find clarity</p>
+</div>
+</div>
+</div>
+</section>
 
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-icon">🎵</div>
-                    <h3>Healing Frequencies</h3>
-                    <p>Scientifically-designed sound frequencies (528Hz, 741Hz, Theta waves) that naturally align your brain with sleep patterns</p>
-                </div>
+<!-- CTA Section -->
+<section class="cta-section">
+<div class="container">
+<h2 class="cta-title">Ready to Transform Your Sleep?</h2>
+<p class="cta-description">Start your journey to peaceful, restorative sleep tonight</p>
+<a href="player-standalone.html" class="btn-primary btn-cta">Get Started Now</a>
+</div>
+</section>
 
-                <div class="card">
-                    <div class="card-icon">❤️</div>
-                    <h3>Emotion-Based</h3>
-                    <p>Choose from stress, anger, sadness, excitement, or overthinking - each emotion gets its own specially tuned frequency</p>
-                </div>
+<!-- Footer -->
+<footer>
+<p>SleepAura © 2025 • Created to help you find peace before sleep</p>
+</footer>
 
-                <div class="card">
-                    <div class="card-icon">🌊</div>
-                    <h3>Ambient Sounds</h3>
-                    <p>Layer calming ambient sounds like rain, ocean waves, or crackling fire to enhance your sleep experience</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<script>
+// PWA Install functionality
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
 
-    <!-- How It Works Section -->
-    <section class="dark-section">
-        <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <p class="section-description">
-                Three simple steps to transform your sleep experience
-            </p>
+// Listen for the beforeinstallprompt event
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  // Stash the event so it can be triggered later
+  deferredPrompt = e;
+  // Show the install button
+  installBtn.classList.add('show');
+});
 
-            <div class="steps-grid">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Choose Your Emotion</h3>
-                    <p>Select the emotion you're feeling - from stress to excitement, anger to overthinking</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Set Your Timer</h3>
-                    <p>Pick a duration from 5 minutes to 1 hour, and add optional ambient sounds</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Drift Into Sleep</h3>
-                    <p>Let the healing frequencies guide you into deep, peaceful, restorative rest</p>
-                </div>
-            </div>
-        </div>
-    </section>
+// Handle install button click
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) {
+    return;
+  }
+  
+  // Show the install prompt
+  deferredPrompt.prompt();
+  
+  // Wait for the user to respond to the prompt
+  const { outcome } = await deferredPrompt.userChoice;
+  
+  if (outcome === 'accepted') {
+    console.log('User accepted the install prompt');
+  } else {
+    console.log('User dismissed the install prompt');
+  }
+  
+  // Clear the deferredPrompt variable
+  deferredPrompt = null;
+  // Hide the install button
+  installBtn.classList.remove('show');
+});
 
-    <!-- Healing Frequencies Section -->
-    <section>
-        <div class="container">
-            <h2 class="section-title">Healing Frequencies</h2>
-            <p class="section-description">
-                Each emotion is matched with a specific healing frequency designed to restore balance
-            </p>
+// Listen for the appinstalled event
+window.addEventListener('appinstalled', (e) => {
+  console.log('PWA was installed');
+  // Hide the install button
+  installBtn.classList.remove('show');
+});
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">😠</div>
-                    <div class="feature-freq">528Hz</div>
-                    <h3>Calm Anger</h3>
-                    <p>Dissolve tension and let go of stress</p>
-                </div>
+// Check if app is already installed (for iOS and other browsers)
+window.addEventListener('load', () => {
+  // Check if running in standalone mode (already installed)
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+    installBtn.style.display = 'none';
+  }
+  
+  // For iOS Safari, show install instructions
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isInStandaloneMode = window.navigator.standalone;
+  
+  if (isIOS && !isInStandaloneMode) {
+    // Show iOS-specific install button
+    installBtn.classList.add('show');
+    installBtn.innerHTML = '<span class="install-icon">🌙</span><span>Add to Home</span>';
+    
+    installBtn.addEventListener('click', () => {
+      alert('To install SleepAura on iOS:\n\n1. Tap the Share button (📤)\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add" to confirm\n\nEnjoy quick access to your sleep companion! 🌙');
+    });
+  }
+});
 
-                <div class="feature-card">
-                    <div class="feature-icon">😢</div>
-                    <div class="feature-freq">396Hz</div>
-                    <h3>Lift Sadness</h3>
-                    <p>Soothe emotional heaviness and promote peace</p>
-                </div>
+// For testing purposes - show button always (remove this in production)
+// installBtn.classList.add('show');
+</script>
 
-                <div class="feature-card">
-                    <div class="feature-icon">😊</div>
-                    <div class="feature-freq">432Hz</div>
-                    <h3>Balance Energy</h3>
-                    <p>Find harmony when excited but can't rest</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🥱</div>
-                    <div class="feature-freq">Theta</div>
-                    <h3>Deep Sleep</h3>
-                    <p>Ease into restful, natural sleep cycles</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">😩</div>
-                    <div class="feature-freq">852Hz</div>
-                    <h3>Stress Relief</h3>
-                    <p>Release mental pressure and clear thoughts</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🤯</div>
-                    <div class="feature-freq">741Hz</div>
-                    <h3>Ease Overthinking</h3>
-                    <p>Reduce racing thoughts and find clarity</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2 class="cta-title">Ready to Transform Your Sleep?</h2>
-            <p class="cta-description">
-                Start your journey to peaceful, restorative sleep tonight
-            </p>
-            <a href="player-standalone.html" class="btn-primary btn-cta">
-                Get Started Now
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>SleepAura © 2025 • Created to help you find peace before sleep</p>
-    </footer>
-
- <script src="./install.js"></script>
 </body>
 </html>
