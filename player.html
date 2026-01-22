@@ -3,17 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#10b981">
+  <meta name="color-scheme" content="dark light" />
+  <link rel="manifest" href="manifest.json" />
   <title>SleepAura 🌙 - Find Your Calm</title>
-
-  <!-- Single manifest + theme-color (root-path manifest is important for PWA + SW scope) -->
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#7c3aed">
-
-  <!-- iOS (Safari doesn’t fire beforeinstallprompt) -->
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -33,40 +26,28 @@
       animation:bgShift 18s ease-in-out infinite alternate;
     }
     @keyframes bgShift{0%{background-position:0 0,0 0,0 0}100%{background-position:30px -30px,-40px 20px,0 0}}
-    @keyframes colorShiftGlow {
-      0%, 100% { color: #fff; text-shadow: 0 0 22px rgba(250, 204, 21, 0.5), 0 0 44px rgba(250, 204, 21, 0.3), 0 0 66px rgba(250, 204, 21, 0.2); }
-      50% { color: #facc15; text-shadow: 0 0 30px rgba(250, 204, 21, 0.7), 0 0 60px rgba(250, 204, 21, 0.5), 0 0 90px rgba(250, 204, 21, 0.4); }
-    }
-
-    /* Install Button */
-    .install-btn {
-      position: fixed; top: 1.5rem; right: 1.5rem; z-index: 50;
-      display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.5rem;
-      border-radius: .5rem; font-weight: 600; font-size: 1rem; transition: all .3s ease;
-      background: linear-gradient(145deg, var(--card1), var(--card2)); color: #fff;
-      border: 1px solid rgba(250, 204, 21, 0.3); box-shadow: var(--shadow); cursor: pointer;
-      animation: colorShiftGlow 4s ease-in-out infinite;
-    }
-    .install-btn:hover { transform: scale(1.05); }
-
     .shell{max-width:1200px;margin:0 auto;padding:1.5rem}
+
     header{text-align:center;padding:3rem 1rem 1.5rem}
-    header h1{font-size:3rem;margin-bottom:.5rem;animation: colorShiftGlow 4s ease-in-out infinite;}
+    header h1{font-size:3rem;margin-bottom:.5rem;color:#fff;text-shadow:0 0 22px rgba(250,204,21,.35)}
     header p{font-size:1.1rem;color:var(--muted-2)}
 
     .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1rem 0 2rem}
+
     .feature{position:relative;background:linear-gradient(145deg,var(--card1),var(--card2));border:1px solid var(--card-border);
       border-radius:1rem;padding:1rem;box-shadow:var(--shadow);transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;cursor:pointer;isolation:isolate;overflow:hidden}
     .feature:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.5);border-color:rgba(250,204,21,.18)}
     .feature:active{transform:translateY(-2px);}
     .feature:focus-visible{outline:3px dashed var(--primary);outline-offset:6px}
     .feature.active{box-shadow:0 26px 55px rgba(250,204,21,.16);border-color:rgba(250,204,21,.35)}
+
     .fx-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.25rem}
     .fx-emoji{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;background:radial-gradient(circle at 30% 20%, rgba(250,204,21,.15), rgba(16,185,129,.12));
       border:1px solid var(--card-border);box-shadow:inset 0 0 20px rgba(0,0,0,.35);font-size:1.2rem}
     .feature h3{font-size:1.05rem;color:var(--primary);font-weight:600}
     .feature p{font-size:.9rem;color:#dbe3ee;margin:.2rem 0 .5rem}
 
+    /* Timer dropdown (dark themed) */
     .timer-select{margin-top:.6rem;display:none}
     .timer-select label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.35rem}
     select{appearance:none;width:100%;padding:.75rem 1rem;border-radius:.8rem;border:1px solid #3b475c;background:linear-gradient(180deg,#162133,#141b2b);
@@ -75,6 +56,7 @@
     select:focus{border-color:var(--ring);box-shadow:0 0 0 4px rgba(250,204,21,.08)}
     option{background-color:#0f172a;color:#f1f5f9}
 
+    /* Controls (older look) */
     .feature-controls{margin-top:1rem;display:none;flex-direction:row;justify-content:center;align-items:center;gap:1rem;z-index:1}
     .timer-display{background:rgba(30,41,59,.9);padding:.4rem .8rem;border-radius:999px;font-size:.9rem;font-weight:600;color:var(--primary);border:1px solid rgba(250,204,21,.3)}
     .btn{display:inline-flex;align-items:center;gap:.4rem;border:none;cursor:pointer;font-weight:600;border-radius:999px;padding:.45rem .9rem}
@@ -86,6 +68,7 @@
 
     footer{text-align:center;padding:2rem 1rem;color:#9fb0c6;font-size:.9rem}
 
+    /* Popup */
     .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter: blur(4px);display:none;align-items:center;justify-content:center;z-index:50}
     .popup{background:linear-gradient(145deg,var(--card1),var(--card2));padding:1.4rem;border-radius:1rem;max-width:320px;width:92%;text-align:center;box-shadow:var(--shadow);border:1px solid rgba(250,204,21,.25);transform:scale(.94);opacity:0;transition:opacity .18s ease, transform .18s ease}
     .popup h3{color:var(--primary);margin-bottom:.6rem}
@@ -101,20 +84,17 @@
       header h1{font-size:2.2rem}
       header p{font-size:1rem}
     }
+      /* Ripple effect */
     .ripple{position:absolute;border-radius:50%;transform:scale(0);opacity:.55;pointer-events:none;background:radial-gradient(circle, rgba(250,204,21,.35) 0%, rgba(16,185,129,.25) 45%, transparent 70%);animation:ripple .6s ease-out forwards}
     @keyframes ripple{to{transform:scale(8);opacity:0}}
 
+    /* Motion-safe */
     @media (prefers-reduced-motion: reduce){
       .feature,.btn,.popup,.progress .bar{transition:none;animation:none}
     }
   </style>
 </head>
 <body>
-  <!-- Install Button -->
-  <button class="install-btn" id="installBtn" style="display:none;">
-    <span>📥</span><span>Install</span>
-  </button>
-
   <!-- Ambient chooser -->
   <div class="popup-overlay" id="ambientPopup" role="dialog" aria-modal="true" aria-labelledby="ambientTitle">
     <div class="popup" tabindex="-1">
@@ -239,29 +219,76 @@
   </div>
 
   <script>
-    // --- Audio/session state (unchanged) ---
+    (async () => {
+  try {
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) await r.unregister();
+    }
+    if ('caches' in window) {
+      const names = await caches.keys();
+      await Promise.all(names.map(n => caches.delete(n)));
+    }
+    // Also clear any old local/session storage that might affect layout logic
+    localStorage.clear?.(); sessionStorage.clear?.();
+  } catch (e) {
+    console.warn('SW reset error (safe to ignore):', e);
+  }
+})();
+    // --- Audio/session state ---
     let currentAudio=null,ambientAudio=null,stopTimeout=null,fadeTimeout=null,timerInterval=null,endTime=null,pendingSession=null,activeControls=null,activeCard=null,totalDurationMs=0,activeProgressBar=null;
     const defaultVolume=0.7;
     const ambientMap={anger:"sounds/ambient_sounds/fire.mp3",sadness:"sounds/ambient_sounds/ocean.mp3",excitement:"sounds/ambient_sounds/rain.mp3",neutral:"sounds/ambient_sounds/ocean.mp3",stress:"sounds/ambient_sounds/rain.mp3",overthinking:"sounds/ambient_sounds/fire.mp3"};
 
+    // --- Improved session cleanup function ---
     function cleanupCurrentSession() {
-      if(currentAudio){ currentAudio.pause(); currentAudio.currentTime=0; currentAudio=null; }
-      if(ambientAudio){ ambientAudio.pause(); ambientAudio.currentTime=0; ambientAudio=null; }
-      if(stopTimeout){ clearTimeout(stopTimeout); stopTimeout=null; }
-      if(fadeTimeout){ clearTimeout(fadeTimeout); fadeTimeout=null; }
-      if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
-      document.querySelectorAll('.feature').forEach(feature=>{
+      // Stop all audio
+      if(currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+      }
+      if(ambientAudio) {
+        ambientAudio.pause();
+        ambientAudio.currentTime = 0;
+        ambientAudio = null;
+      }
+      
+      // Clear all timers and timeouts
+      if(stopTimeout) {
+        clearTimeout(stopTimeout);
+        stopTimeout = null;
+      }
+      if(fadeTimeout) {
+        clearTimeout(fadeTimeout);
+        fadeTimeout = null;
+      }
+      if(timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      
+      // Reset all UI states
+      document.querySelectorAll('.feature').forEach(feature => {
         feature.classList.remove('active');
-        const controls=feature.querySelector('.feature-controls');
-        const progressBar=feature.querySelector('.progress .bar');
-        const selectBox=feature.querySelector('select');
-        if(controls) controls.style.display='none';
-        if(progressBar) progressBar.style.width='0%';
-        if(selectBox) selectBox.value='';
+        const controls = feature.querySelector('.feature-controls');
+        const progressBar = feature.querySelector('.progress .bar');
+        const selectBox = feature.querySelector('select');
+        
+        if(controls) controls.style.display = 'none';
+        if(progressBar) progressBar.style.width = '0%';
+        if(selectBox) selectBox.value = '';
       });
-      endTime=null; totalDurationMs=0; activeCard=null; activeControls=null; activeProgressBar=null;
+      
+      // Reset global state
+      endTime = null;
+      totalDurationMs = 0;
+      activeCard = null;
+      activeControls = null;
+      activeProgressBar = null;
     }
 
+    // --- Card interactions (dropdown) ---
     document.querySelectorAll('.feature').forEach(feature=>{
       const selectBox=feature.querySelector('select');
       const timerDiv=feature.querySelector('.timer-select');
@@ -274,10 +301,25 @@
 
       feature.addEventListener('click',e=>{
         if(e.target.tagName==='SELECT'||e.target.tagName==='LABEL'||e.target.closest('.timer-select')||e.target.classList.contains('stopButton'))return;
-        createRipple(feature,e);
-        if(feature.classList.contains('active')){ cleanupCurrentSession(); return; }
-        document.querySelectorAll('.timer-select').forEach(div=>{ div.style.display='none'; });
-        document.querySelectorAll('select').forEach(select=>{ select.value=''; });
+        
+        // ripple
+        createRipple(feature, e);
+        
+        // If a session is running on this card, stop it
+        if(feature.classList.contains('active')){
+          cleanupCurrentSession();
+          return;
+        }
+        
+        // Hide all timer selects and reset their values
+        document.querySelectorAll('.timer-select').forEach(div=>{
+          div.style.display='none';
+        });
+        document.querySelectorAll('select').forEach(select => {
+          select.value = '';
+        });
+        
+        // Show/hide the timer select for this card
         timerDiv.style.display=(timerDiv.style.display==='block')?'none':'block';
       });
 
@@ -286,14 +328,18 @@
       selectBox.addEventListener('change',()=>{
         const duration=parseInt(selectBox.value)*1000;
         if(!selectBox.value) return;
+        
         pendingSession={soundFile,emotion,duration,controls,timerDisplay,stopButton,feature,progressBar};
         showPopup();
         timerDiv.style.display='none';
       });
 
-      stopButton.addEventListener('click',()=>{ cleanupCurrentSession(); });
+      stopButton.addEventListener('click',()=>{
+        cleanupCurrentSession();
+      });
     });
 
+    // --- Popup controls ---
     const popup=document.getElementById('ambientPopup');
     const yesBtn=document.getElementById('ambientYes');
     const noBtn=document.getElementById('ambientNo');
@@ -303,16 +349,55 @@
     noBtn.addEventListener('click',()=>{ if(pendingSession) startSession(pendingSession,false); pendingSession=null; hidePopup(); });
     document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&popup.classList.contains('show')){ noBtn.click(); }});
 
+    // --- Session handling ---
     function startSession(session,withAmbient){
+      // First, completely clean up any existing session
       cleanupCurrentSession();
-      session.feature.classList.add('active'); activeCard=session.feature; activeControls=session.controls; activeProgressBar=session.progressBar;
-      currentAudio=new Audio(session.soundFile); currentAudio.loop=true; currentAudio.volume=defaultVolume; currentAudio.play().catch(err=>console.log('Audio play failed:',err));
-      if(withAmbient){ const ambientFile=ambientMap[session.emotion]; if(ambientFile){ ambientAudio=new Audio(ambientFile); ambientAudio.loop=true; ambientAudio.volume=0.5; ambientAudio.play().catch(err=>console.log('Ambient play failed:',err)); } }
-      endTime=Date.now()+session.duration; totalDurationMs=session.duration; session.controls.style.display='flex';
+
+      // Set up the new session
+      session.feature.classList.add('active');
+      activeCard=session.feature; 
+      activeControls=session.controls; 
+      activeProgressBar=session.progressBar;
+
+      // Start playing the main audio
+      currentAudio=new Audio(session.soundFile); 
+      currentAudio.loop=true; 
+      currentAudio.volume=defaultVolume; 
+      currentAudio.play().catch(err => console.log('Audio play failed:', err));
+      
+      // Start ambient audio if requested
+      if(withAmbient){ 
+        const ambientFile=ambientMap[session.emotion]; 
+        if(ambientFile){ 
+          ambientAudio=new Audio(ambientFile); 
+          ambientAudio.loop=true; 
+          ambientAudio.volume=0.5; 
+          ambientAudio.play().catch(err => console.log('Ambient play failed:', err)); 
+        }
+      }
+
+      // Set up timing
+      endTime=Date.now()+session.duration; 
+      totalDurationMs=session.duration;
+      session.controls.style.display='flex';
+      
+      // Start the timer updates
       updateTimer(session.timerDisplay, activeProgressBar, totalDurationMs);
       timerInterval=setInterval(()=>updateTimer(session.timerDisplay, activeProgressBar, totalDurationMs),1000);
-      if(session.duration>60000){ fadeTimeout=setTimeout(()=>{ if(currentAudio)fadeOutAudio(currentAudio); if(ambientAudio)fadeOutAudio(ambientAudio); }, session.duration-60000); }
-      stopTimeout=setTimeout(()=>{ cleanupCurrentSession(); }, session.duration);
+
+      // Set up fade out (1 minute before end for longer sessions)
+      if(session.duration>60000){ 
+        fadeTimeout=setTimeout(()=>{ 
+          if(currentAudio)fadeOutAudio(currentAudio); 
+          if(ambientAudio)fadeOutAudio(ambientAudio); 
+        }, session.duration-60000); 
+      }
+      
+      // Set up auto-stop
+      stopTimeout=setTimeout(()=>{ 
+        cleanupCurrentSession();
+      }, session.duration);
     }
 
     function updateTimer(timerDisplay,progressEl,totalMs){
@@ -324,176 +409,46 @@
       const elapsed=Math.min(totalMs,totalMs-Math.max(0,endTime-Date.now()));
       const pct=Math.max(0,Math.min(100,(elapsed/totalMs)*100));
       if(progressEl) progressEl.style.width=pct+'%';
-      if(remaining<=0){ clearInterval(timerInterval); timerInterval=null; }
+      if(remaining<=0){ 
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
     }
 
-    function fadeOutAudio(audio,duration=60000){
-      const steps=Math.max(1,Math.floor(duration/100));
-      const step=audio.volume/steps;
-      const fadeInterval=setInterval(()=>{
-        if(audio.volume>step) audio.volume-=step;
-        else{ audio.volume=0; clearInterval(fadeInterval); }
-      },100);
+    function fadeOutAudio(audio,duration=60000){ 
+      const steps=Math.max(1,Math.floor(duration/100)); 
+      const step=audio.volume/steps; 
+      const fadeInterval=setInterval(()=>{ 
+        if(audio.volume>step) audio.volume-=step; 
+        else{ 
+          audio.volume=0; 
+          clearInterval(fadeInterval);
+        } 
+      },100); 
     }
-    function createRipple(el,e){
-      const rect=el.getBoundingClientRect();
-      const size=Math.max(rect.width,rect.height);
-      const ripple=document.createElement('span');
-      ripple.className='ripple';
-      ripple.style.width=ripple.style.height=size+'px';
-      ripple.style.left=(e.clientX-rect.left-size/2)+'px';
-      ripple.style.top=(e.clientY-rect.top-size/2)+'px';
+
+    // Deprecated - replaced by cleanupCurrentSession
+    function stopAudio(){
+      cleanupCurrentSession();
+    }
+    
+    function createRipple(el, e){
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
       el.appendChild(ripple);
-      ripple.addEventListener('animationend',()=>ripple.remove());
+      ripple.addEventListener('animationend', ()=> ripple.remove());
     }
 
-    // --- PWA: SW + Install button ---
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
-          .catch(err => console.error('SW registration failed:', err));
-      });
+    if ("serviceWorker" in navigator) {
+ navigator.serviceWorker.register("./service-worker.js?v=v16-2025-09-20", { scope: "./" })
+        .then(reg => console.log("SW registered:", reg.scope))
+        .catch(err => console.error("SW registration failed:", err));
     }
-
-    let deferredPrompt;
-    const installBtn = document.querySelector('#installBtn') || document.querySelector('button.install');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      if (installBtn) installBtn.style.display = 'inline-block';
-    });
-
-    if (installBtn) {
-      installBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        installBtn.style.display = 'none';
-      });
-    }
-
-    window.addEventListener('appinstalled', () => {
-      if (installBtn) installBtn.style.display = 'none';
-    });
-  </script>
- <!-- Add this to player.html: end of <body>, after player markup -->
-<script type="module">
-  import { requireAuthRedirect, authSignOut } from '/scripts/auth.js';
-  import { auth } from '/scripts/firebase.js';
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-
-  // 1) Protect the page (redirect to login if not authed)
-  requireAuthRedirect('/login.html');
-
-  // 2) Wait for initial auth state before initializing player
-  //    This prevents the player from autoplaying or loading protected data
-  const currentUser = await new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      unsubscribe();
-      resolve(user); // user === null if not signed in
-    });
-  });
-
-  // If somehow not authed (extra safety), redirect
-  if (!currentUser) {
-    window.location.href = '/login.html';
-    throw new Error('Redirecting to login');
-  }
-
-  // 3) Initialize UI that depends on the signed-in user
-  initPlayerForUser(currentUser);
-
-  function initPlayerForUser(user) {
-    // show a small user badge in top-left
-    let badge = document.getElementById('user-badge');
-    if (!badge) {
-      badge = document.createElement('div');
-      badge.id = 'user-badge';
-      badge.style.cssText = `
-        position: fixed;
-        left: 1rem;
-        top: 1rem;
-        padding: .5rem .75rem;
-        border-radius: .5rem;
-        font-size: .95rem;
-        background: rgba(0,0,0,0.25);
-        color: white;
-        z-index: 60;
-        backdrop-filter: blur(6px);
-      `;
-      document.body.appendChild(badge);
-    }
-    badge.textContent = user.email ?? 'Signed in';
-
-    // Hook a logout button if present in your player UI:
-    // Add <button id="logoutBtn">Logout</button> anywhere in the player HTML to use it.
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', async () => {
-        try {
-          await authSignOut();
-          window.location.href = '/login.html';
-        } catch (err) {
-          alert('Logout failed: ' + err.message);
-        }
-      });
-    }
-
-    // OPTIONAL: If your audio element has autoplay or would start before auth,
-    // make sure it's paused initially and then call play when ready:
-    const audio = document.querySelector('audio'); // or use your player's element selector
-    if (audio) {
-      // ensure we don't auto-play sensitive streams before auth check
-      try {
-        // only try to play if it's user-initiated; otherwise leave it paused
-        // audio.play().catch(()=>{/* ignore autoplay block */});
-      } catch (e) { /* ignore */ }
-    }
-
-    // Any other player initialization that relies on user info goes here:
-    // - Load user's saved mixes / preferences
-    // - Unlock premium tracks, etc.
-    // Call your existing player init function if you have one:
-    if (typeof window.initPlayer === 'function') {
-      window.initPlayer(user);
-    }
-  }
 </script>
-  <script>
-// Basic player - no auth required, but show login option
-const loginPrompt = document.createElement('div');
-loginPrompt.style.cssText = `
-position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
-background: linear-gradient(145deg, #1e293b, #334155);
-border: 1px solid rgba(250, 204, 21, 0.3);
-border-radius: 1rem; padding: 1rem 1.5rem;
-box-shadow: 0 10px 30px rgba(0,0,0,.45);
-color: white; font-size: .9rem;
-`;
-loginPrompt.innerHTML = `
-<div style="margin-bottom: .5rem; font-weight: 600;">🌟 Want more?</div>
-<div style="margin-bottom: 1rem; color: #cbd5e1;">Get 12 frequencies + analytics</div>
-<a href="login.html" style="
-display: inline-block; padding: .5rem 1rem;
-background: linear-gradient(145deg, #facc15, #10b981);
-color: #0f172a; text-decoration: none;
-border-radius: .5rem; font-weight: 600;
-font-size: .85rem;
-">Sign Up Free</a>
-`;
-document.body.appendChild(loginPrompt);
-
-// Hide after 10 seconds
-setTimeout(() => {
-loginPrompt.style.opacity = '0';
-loginPrompt.style.transition = 'opacity 1s';
-setTimeout(() => loginPrompt.remove(), 1000);
-}, 10000);
-</script>
-
 </body>
 </html>
-
-
