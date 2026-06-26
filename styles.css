@@ -1,0 +1,159 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-aura-gold: var(--aura-gold);
+  --color-aura-bg1: var(--aura-bg1);
+  --color-aura-bg2: var(--aura-bg2);
+  --color-aura-card1: var(--aura-card1);
+  --color-aura-card2: var(--aura-card2);
+  --font-display: "Outfit", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  /* SleepAura gold-on-navy palette */
+  --aura-bg1: hsl(240 45% 9%);
+  --aura-bg2: hsl(221 39% 11%);
+  --aura-card1: hsl(221 39% 11%);
+  --aura-card2: hsl(215 20% 22%);
+  --aura-gold: hsl(48 96% 54%);
+  --aura-text: hsl(210 40% 96%);
+  --aura-muted: hsl(215 16% 63%);
+  --aura-muted-2: hsl(214 32% 83%);
+
+  --background: hsl(240 45% 9%);
+  --foreground: hsl(210 40% 96%);
+  --card: hsl(221 39% 11%);
+  --card-foreground: hsl(210 40% 96%);
+  --popover: hsl(221 39% 11%);
+  --popover-foreground: hsl(210 40% 96%);
+  --primary: hsl(48 96% 54%);
+  --primary-foreground: hsl(240 45% 9%);
+  --secondary: hsl(215 20% 22%);
+  --secondary-foreground: hsl(210 40% 96%);
+  --muted: hsl(215 20% 22%);
+  --muted-foreground: hsl(215 16% 63%);
+  --accent: hsl(48 96% 54%);
+  --accent-foreground: hsl(240 45% 9%);
+  --destructive: hsl(0 70% 55%);
+  --destructive-foreground: hsl(210 40% 96%);
+  --border: hsl(215 16% 63% / 0.18);
+  --input: hsl(215 16% 63% / 0.2);
+  --ring: hsl(48 96% 54%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    font-family: var(--font-display);
+  }
+  body {
+    color: var(--aura-text);
+    background:
+      radial-gradient(1200px 800px at 20% -10%, hsl(220 30% 14% / 0.25), transparent 50%),
+      radial-gradient(1000px 800px at 110% 10%, hsl(220 30% 14% / 0.20), transparent 50%),
+      linear-gradient(135deg, hsl(240 45% 6%) 0%, hsl(240 35% 8%) 50%, hsl(240 45% 6%) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@keyframes colorShiftGlow {
+  0%, 100% {
+    color: hsl(48 90% 70%);
+    text-shadow:
+      0 0 10px hsl(48 90% 70% / 0.25),
+      0 0 20px hsl(48 90% 70% / 0.15);
+  }
+  50% {
+    color: hsl(48 96% 54%);
+    text-shadow:
+      0 0 14px hsl(48 96% 54% / 0.35),
+      0 0 28px hsl(48 96% 54% / 0.20);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.9; }
+}
+
+.animate-fade-in { animation: fadeIn 0.8s ease-out both; }
+.animate-glow-shift { animation: colorShiftGlow 4.5s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulseSoft 2.4s ease-in-out infinite; }
+
+.aura-card {
+  background: linear-gradient(145deg, var(--aura-card1), var(--aura-card2));
+  border: 1px solid hsl(215 16% 63% / 0.14);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  border-radius: 1rem;
+}
+.aura-card-hover { transition: transform 0.35s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+.aura-card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.55);
+  border-color: hsl(48 96% 54% / 0.35);
+}
+
+.aura-gold-glow {
+  background: radial-gradient(circle at 30% 20%, hsl(48 96% 54% / 0.08), hsl(48 96% 54% / 0.03));
+  border: 1px solid hsl(215 16% 63% / 0.12);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.45);
+}
+
+.aura-btn {
+  background: linear-gradient(145deg, hsl(48 96% 54%), hsl(48 96% 48%));
+  color: hsl(240 45% 9%);
+  font-weight: 600;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.aura-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px -10px hsl(48 96% 54% / 0.45);
+}
+
+.aura-text-gold {
+  color: hsl(48 90% 65%);
+  text-shadow: 0 0 8px hsl(48 90% 65% / 0.25);
+}
